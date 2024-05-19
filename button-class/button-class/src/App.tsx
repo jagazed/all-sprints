@@ -1,9 +1,37 @@
-import React, {MouseEventHandler} from 'react';
+import React, {MouseEventHandler, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Button} from "./components/Button";
+import {subscribe} from "node:diagnostics_channel";
+import Button2 from "./components/Button2";
 
 function App() {
+
+    let[a, setA] = useState(1)
+    const onClickHandler = () => {
+        setA(++a);
+        console.log(a)
+    }
+    const onClickHandler2 = () => {
+        setA(0);
+        console.log(a)
+    }
+
+    // const [money, setMoney] = useState([
+    //     {banknote: 'dollar', nominal: 100, number: ' a1234567890'},
+    //     {banknote: 'dollar', nominal: 50, number: ' z1234567890'},
+    //     {banknote: 'ruble', nominal: 100, number: ' w1234567890'},
+    //     {banknote: 'dollar', nominal: 100, number: ' c1234567890'},
+    //     {banknote: 'dollar', nominal: 50, number: ' e123456790'},
+    //     {banknote: 'ruble', nominal: 100, number: ' r1234562890'},
+    //     {banknote: 'dollar', nominal: 50, number: ' x123452791'},
+    //     {banknote: 'ruble', nominal: 50, number: ' v1234567892'}
+    // ])
+    // const acxenge = (useState) => {
+    //     console.log(useState)
+    // }
+
+
     // const myFirstSubscriber: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     //     console.log("Hello I'm Vasya!")
     // }
@@ -13,7 +41,15 @@ function App() {
     // const onClickHandler = (name: string) => {
     //     console.log(name)
     // }
-
+    const Button1Foo = (subscriber: string, age: number) => {
+        console.log(subscriber, age)
+    }
+    const Button2Foo = (subscriber: string) => {
+        console.log(subscriber)
+    }
+    const Button3Foo = () => {
+        console.log('stupid button')
+    }
     return (
         <div className="App">
             {/*<button onClick={(event) => {console.log('Hello')}}>MyYouTubeChannel-1</button>*/}
@@ -24,8 +60,13 @@ function App() {
 
             {/*<button>MyYouTubeChannel-1</button>*/}
             {/*<button>MyYouTubeChannel-2</button>*/}
-            <Button name={"MyYouTubeChannel-1"}/>
-            <Button name={"MyYouTubeChannel-2"}/>
+            <Button name={"MyYouTubeChannel-1"} callBack={() => Button1Foo("I'm Vasya!", 21)}/>
+            <Button name={"MyYouTubeChannel-2"} callBack={() => Button2Foo("I'm Ivan!")}/>
+            <Button name={"stupid button"} callBack={Button3Foo}/>
+            {/*<Button2 name={"all money"} callBack={() => acxenge(useState())} />*/}
+            <h1>{a}</h1>
+            <button onClick={onClickHandler}>number</button>
+            <button onClick={onClickHandler2}>0</button>
         </div>
     );
 }
