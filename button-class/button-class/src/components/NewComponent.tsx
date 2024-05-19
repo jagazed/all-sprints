@@ -8,8 +8,6 @@ type MoneyItem ={
     number: string
 }
 
-// type FilterType = 'all' | 'dollar' | 'ruble'
-
 type NewComponentProps = {
     currentMoney: MoneyItem[]
     onClickFilterHandler: (nameButton: FilterType) => void
