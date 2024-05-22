@@ -98,10 +98,73 @@ const superUser = {
 // console.log("company name superUser", superUser.company.name);
 // console.log("company name superCopy2", superCopy2.company.name);
 
-const structuredCloneCopy = structuredClone(superUser);
-structuredCloneCopy.address.geo.lat = "test value";
-console.log("superuser: ", superUser.address.geo.lat);
-console.log("structuredCloneCopy: ", structuredCloneCopy.address.geo.lat);
+// const structuredCloneCopy = structuredClone(superUser);
+// structuredCloneCopy.address.geo.lat = "test value";
+// console.log("superuser: ", superUser.address.geo.lat);
+// console.log("structuredCloneCopy: ", structuredCloneCopy.address.geo.lat);
 
+//case1
+// const employee = {
+//     firstName: 'Ivan',
+//     lastName: 'Ivanov',
+//     middleName: 'Ivanovich'
+// };
+//
+// const {firstName , lastName} = employee;
+// console.log(firstName);
+// console.log(lastName);
 
+// const employee = {
+//     firstName: 'Ivan',
+//     lastName: 'Ivanov',
+//     middleName: 'Ivanovich'
+// };
+//
+// const firstName = 'Nina'; //firstName
+// const {firstName: name, lastName} = employee;
+// console.log(firstName);
+// console.log(name); //ivan
+//
+// const user = {
+//     firstName: 'Ivan',
+//     lastName: 'Ivanov',
+//     middleName: 'Ivanovich',
+//     //role: 'admin'
+// };
+//
+// const {middleName, role = 'welcome user!' } = user;
+// console.log("role: ", role);
 
+// const employee = {
+//     firstName: 'Ivan',
+//     lastName: 'Ivanov',
+//     middleName: 'Ivanovich',
+//     message: 'Hello world!',
+//     permission: {
+//         canEdit: true,
+//         canDelete: false,
+//         role: 'user',
+//     },
+// };
+
+//case1
+// const {firstName, permission: {canDelete, canEdit}} = employee
+//
+// console.log('canDelete: ', canDelete);
+// console.log('canEdit: ', canEdit);
+
+// const colors = ['red', 'blue', 'green', 'white', 'black'];
+//
+// const [firstElement, secondElement, greenColor] = colors;
+// console.log(firstElement, secondElement, greenColor);
+
+//case2
+// const colors = ['red', 'blue', 'green', 'white', 'black'];
+// const [firstValue, secondValue, , thirtyValue] = colors;
+// console.log(secondValue);
+// console.log(thirtyValue);
+
+//case3
+const colors = ['red', ['first value', 'second value'], 'green', 'white', 'black'];
+const [firstValue, [nestedValue1, nestedValue2], secondValue] = colors;
+console.log(firstValue, nestedValue1, nestedValue2, secondValue);
