@@ -185,8 +185,88 @@
 // console.log(names.sort() === names); //true
 
 //compare function for sort:
-const numbers = [1, 2, -3525523, 366643, -3, 15215];
-const result = numbers.sort((a, b) => {
+//по возрастанию
+// const numbers = [1, 2, -3525523, 366643, -3, 15215];
+// const result = numbers.sort((a, b) => a - b) // a - b < 0, a ставят на наименьший индекс(т.е. первее)
+// console.log(result);
 
-})
+//по убыванию
+// const numbers = [1, 2, -3525523, 366643, -3, 15215];
+// const result = numbers.sort((a, b) => b - a) // b - a > 0, b ставят на наименьший индекс(т.е. первее)
+// console.log(result); //[ 366643, 15215, 2, 1, -3, -3525523 ]
 
+// const users = [
+//     {
+//         id: 1,
+//         name: 'Bob',
+//         isStudent: true,
+//     },
+//     {
+//         id: 2,
+//         name: 'Alex',
+//         isStudent: true,
+//     },
+//     {
+//         id: 3,
+//         name: 'alex',
+//         isStudent: true,
+//     },
+//     {
+//         id: 4,
+//         name: 'Виктор',
+//         isStudent: true,
+//     },
+//     {
+//         id: 5,
+//         name: 'виктор',
+//         isStudent: true,
+//     },
+// ]
+//
+// console.log(users.sort((a, b) => b.name.localeCompare(a.name)));
+//[
+//    { id: 3, name: 'alex', isStudent: true },
+//    { id: 2, name: 'Alex', isStudent: true },
+//    { id: 1, name: 'Bob', isStudent: true }
+//  ]
+
+//toSorted()
+
+const users1 = [
+    {
+        id: 1,
+        name: 'Bob',
+        isStudent: true,
+    },
+    {
+        id: 2,
+        name: 'Alex',
+        isStudent: true,
+    },
+    {
+        id: 3,
+        name: 'Ann',
+        isStudent: true,
+    },
+    {
+        id: 4,
+        name: 'Donald',
+        isStudent: false,
+    },
+];
+
+// const res = users1.map((user) => user.name);
+// console.log(res);
+
+function newMap(arr, callback) {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        result.push(callback(arr[i]))
+    }
+
+    return result
+}
+
+const result = newMap(users1, (user) => user.name);
+console.log(result);
