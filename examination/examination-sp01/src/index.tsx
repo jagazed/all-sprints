@@ -1,3 +1,4 @@
+import React from 'react';
 type UserPropsType = {
     name: string
     description: string
@@ -5,7 +6,7 @@ type UserPropsType = {
 export const User: React.FC<UserPropsType> = (props) => {
     return <div>
         <h1>Имя: {props.name}</h1>
-        //<div>Описание: {props.description}</div>
+        <div>Описание: {props.description}</div>
     </div>
 }
 
