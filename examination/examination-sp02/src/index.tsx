@@ -3,15 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function UsersList() {
-    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
+    const results = useState('')
+
+    //const users = results[0]
+    //const setUsers = results[1]
+    const res2 = results.length;
+
 
     return (
-        <p>Тут будет список пользователей!{typeof(UsersList)}</p>
+        <p>Тут будет список пользователей {res2}</p>
     )
 }
 
 ReactDOM.render(
-    <UsersList />, document.getElementById('root')
+    <UsersList/>, document.getElementById('root')
 );
 
-// Что вернёт выражение: typeof useState?
+// Чему равно results.length?

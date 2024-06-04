@@ -270,3 +270,18 @@ function newMap(arr, callback) {
 
 const result = newMap(users1, (user) => user.name);
 console.log(result);
+
+const numbers = [1000, 4, 400, 22, -1]
+const compareFunction = (a, b) => {
+    // по возрастанию
+
+    //если возвращает число больше > 0 - надо переставить
+    // < 0 - то порядок не меняем
+    if (a < b) {
+        return 1
+    } else {
+        return -1
+    }
+}
+
+console.log(numbers.sort(compareFunction)) //[ 1000, 4, 400, 22, -1 ]
