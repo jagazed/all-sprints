@@ -285,3 +285,22 @@ const compareFunction = (a, b) => {
 }
 
 console.log(numbers.sort(compareFunction)) //[ 1000, 4, 400, 22, -1 ]
+
+
+const people = [
+    { name: 'Alice', age: 25 },
+    { name: 'Bob', age: 30 },
+    { name: 'Charlie', age: 22 },
+] // { names: [...], totallAge: ..}
+
+const combinedInfo = people.reduce(
+    (acc, person) => {
+        console.log('person', person)
+        acc.names.push(person.name)
+        acc.totalAge += person.age
+        return acc
+    },
+    { names: [], totalAge: 0 }
+)
+
+console.log(combinedInfo) // { names: [ 'Alice', 'Bob', 'Charlie' ], totalAge: 77 }
