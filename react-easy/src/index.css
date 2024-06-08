@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.radio{
+  display: inline-block;
+  border-radius: 5px;
+  background-color: green;
+  width: 10px;
+  height: 10px;
+}
