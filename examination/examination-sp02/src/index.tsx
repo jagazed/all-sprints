@@ -1,22 +1,17 @@
-import React, {useState} from 'react';
+import React, {MouseEvent} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function UsersList() {
-    const results = useState('')
-
-    //const users = results[0]
-    //const setUsers = results[1]
-    const res2 = results.length;
-
-
-    return (
-        <p>Тут будет список пользователей {res2}</p>
-    )
+function Button() {
+    const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+        console.log((typeof e) === 'object')
+    }
+    return <button onClick={onClickHandler} >Click</button>
 }
 
+
 ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
+    <Button/>, document.getElementById('root')
 );
 
-// Чему равно results.length?
+// Что надо написать вместо ххх, чтобы в консоль вывело true?
