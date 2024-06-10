@@ -4,7 +4,7 @@ const predicate = (age: number) => {
     return age > 90;
 }
 
-console.log(predicate(ages));
+console.log(predicate(ages[0]));
 const oldAges = [100]; // > 90
 
 type CoursesType = {
