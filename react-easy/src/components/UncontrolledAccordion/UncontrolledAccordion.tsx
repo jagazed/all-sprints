@@ -13,11 +13,13 @@ export function UncontrolledAccordion(props: AccordionPropsType) {
         <AccordionTitle title={props.titleValue}/> <button onClick={ ()=>{setCollapsed(!collapsed)} }>TOGGLE</button>
         { !collapsed && <AccordionBody/>}
     </div>
+
+
 }
 type AccordionTitlePropsType = {
     title: string
 }
-function AccordionTitle(props:AccordionTitlePropsType) {
+export function AccordionTitle(props:AccordionTitlePropsType) {
     console.log("AccordionTitle rendering");
     return (
         <h3>{props.title}</h3>
