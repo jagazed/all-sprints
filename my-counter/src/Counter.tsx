@@ -2,8 +2,8 @@ import React from 'react';
 import {Button} from "./Button";
 
 type CounterPropsType = {
-    maxCount: number,
-    minCount: number,
+    maxCount: number
+    minCount: number
     addCounter: () => void
     resetCounter: () => void
     counterValue: ValueState
