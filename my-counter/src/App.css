@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin: 100px auto;
 }
 
 .App-logo {
@@ -35,4 +36,53 @@
   to {
     transform: rotate(360deg);
   }
+}
+.counterBox {
+  background-color: #2a2c35;
+  max-width: 100px;
+  min-height: 80px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-radius: 10px;
+}
+.counter {
+  background-color: #66d9ff;
+  font-size: 20px;
+  color: black;
+  width: 80%;
+  margin: 0 auto 10px;
+  border-radius: 5px;
+}
+.counter-full {
+  background-color: #66d9ff;
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+  width: 80%;
+  margin: 0 auto 10px;
+  border-radius: 5px;
+}
+.incButton{
+  background-color: #67dafd;
+  border: none;
+  border-radius: 5px;
+  margin-right: 8px;
+}
+.incButton-disabled{
+  background-color: #437183;
+  border: none;
+  color: #31283f;
+  border-radius: 5px;
+  margin-right: 8px;
+}
+button:disabled {
+  background-color: #437183;
+  color: #31283f;
+}
+
+
+.resButton {
+  background-color: #67dafd;
+  border: none;
+  border-radius: 5px;
 }
