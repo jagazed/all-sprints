@@ -3,8 +3,9 @@ const md = document.getElementById("medium")
 const bg = document.getElementById("big")
 
 const handler1 = (event) => {
-    if (event.currentTarget.id === "small"){
-        alert()
+    event.stopPropagation() // остановить распространение
+    if (event.target.tagName === "BUTTON"){
+        alert(event.target.id)
     }
 }
 
@@ -30,3 +31,11 @@ sm.addEventListener("click", handler1)
 console.dir(sm)
 // md.addEventListener("click", handler2, false)
 // bg.addEventListener("click", handler3, {capture: false})
+
+const a = document.getElementById("a")
+a.addEventListener("click", a_click)
+
+function a_click(e) {
+    e.preventDefault();
+    alert("hey")
+}
