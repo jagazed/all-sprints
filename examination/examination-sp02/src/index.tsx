@@ -2,46 +2,21 @@ import React, {useState, MouseEvent, ChangeEvent} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Notes() {
-    const [newNote, setNewNote] = useState<string>("")
-    const [notes, setNotes] = useState<Array<string>>([])
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement> )=>
-        setNewNote(e.currentTarget.value)
-    const addNote = () => {
-        setNotes([newNote, ...notes])
-        setNewNote("")
-    }
+function User() {
+    const [userName, setUserName] = useState<string>("")
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement> )=> setUserName(e.currentTarget.value)
     return (
         <div>
-            <textarea
-                value={newNote}
+            <p>{userName}</p>
+            <input
                 onChange={onChangeHandler}
-                onBlur={addNote}
             />
-            <div>
-                <button
-                    onClick={() => {setNotes([])}}
-                >Clear notes list</button>
-            </div>
-            <h4>Notes:</h4>
-            <div>
-                {notes.map(n => <p>{n}</p>)}
-            </div>
         </div>
     )
 }
 
 ReactDOM.render(
-    <Notes/>, document.getElementById('root')
+    <User/>, document.getElementById('root')
 );
-// Что надо написать вместо ххх,
-// чтобы при клике список заметок очищался?
-
-
-
-
-
-
-
-
-
+// Что надо написать вместо ххх, чтобы правильно типизировать
+// параметр функции?
