@@ -1,53 +1,32 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom'
 
-type UserType = {
-    id: number
-    name: string
-    age: number
+const Son = (props: any) => {
+    return <div>
+        I am son. My name is {props.name}
+    </div>
 }
 
-type UserPropsType = UserType & {
-    deleteUser: (id: number) => void
+
+const Father = (props: any) => {
+    return <div>
+        I am father. My name is {props.name}
+        <Son name={props.sonName} />
+    </div>
 }
 
-function User(props: UserPropsType) {
-    return (
-        <li>
-            <button onClick={() => props.deleteUser(props.id)}>x</button>
-            User {props.name}: {props.age} y.o.
-        </li>
-    )
+const Granny = (props: any) => {
+    return <div>
+        I am granny. My name is {props.name}
+        <Father name={props.fatherName} sonName={props.sonName} />
+    </div>
 }
 
-function UsersList() {
-    const data: Array<UserType> = [
-        {id: 1, name: "Bob", age: 25},
-        {id: 2, name: "Alex", age: 28},
-        {id: 3, name: "Ann", age: 23},
-        {id: 4, name: "John", age: 30},
-    ]
-    const [users, setUsers] = useState<Array<UserType>>(data)
-    const deleteUser = (userID: number) => {
-        const filteredUsers = users.filter(u => u.id !== userID)
-        setUsers(filteredUsers)
-    }
-    return (
-        <main>
-            <h4>User list:</h4>
-            <ul>
-                {users.map(u => <User
-                    key={u.id}
-                    {...u}
-                    deleteUser={deleteUser}
-                />)}
-            </ul>
-        </main>
-    )
+export const App = () => {
+    return <div>
+        <Granny name={'Бабуля'} fatherName={'Батя'} sonName={'Сын'}/>
+    </div>
 }
 
-ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
-);
-// Что надо написать вместо xxx, чтобы код работал?
+ReactDOM.render(<App/>,
+    document.getElementById('root')
+)
