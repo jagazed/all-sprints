@@ -1,17 +1,12 @@
-import React, {MouseEvent} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-function Button() {
-    const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log((typeof e) === 'object')
-    }
-    return <button onClick={onClickHandler} >Click</button>
+type UserPropsType = {
+    name: string
+    description: string
+}
+export const User: React.FC<UserPropsType> = (props) => {
+    return <div>
+        <h1>Имя: {props.name}</h1>
+        <div>Описание: {props.description}</div>
+    </div>
 }
 
-
-ReactDOM.render(
-    <Button/>, document.getElementById('root')
-);
-
-// Что надо написать вместо ххх, чтобы в консоль вывело true?
+//Что нужно написать вместо ххх, что бы код работал?
