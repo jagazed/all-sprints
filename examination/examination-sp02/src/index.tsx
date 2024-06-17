@@ -1,38 +1,21 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState, MouseEvent, ChangeEvent} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function AuthForm() {
-    const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        alert()
-    }
+function User() {
+    const [userName, setUserName] = useState<string>("")
     return (
-        <form>
-            <div>
-                <label style={{padding: "10px 0"}}>
-                    Name:
-                    <input type={"email"} name={"email"}/>
-                </label>
-            </div>
-            <div>
-                <label style={{padding: "10px 0"}}>
-                    Password:
-                    <input type={"password"} name={"password"}/>
-                </label>
-            </div>
-            <button
-                onClick={onClickHandler}
-                type={"submit"}>
-                Log in
-            </button>
-        </form>
+        <div>
+            <p>{userName}</p>
+            <input value={userName}
+
+                onChange={(e) => setUserName(e.currentTarget.value)}
+            />
+        </div>
     )
 }
 
 ReactDOM.render(
-    <AuthForm/>, document.getElementById('root')
+    <User/>, document.getElementById('root')
 );
-// Что надо написать вместо ххх, чтобы данные из формы
-// не отправлялись на сервер и страница не перезагружалась
-// при клике по кнопке?
+// Что надо написать вместо ххх, чтобы инпут был контролируемым?
