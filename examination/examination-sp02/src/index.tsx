@@ -1,18 +1,17 @@
-type PagePropsType = {
-    age: number
-    name: string
-    avatarUrl: string
-}
-const Page: React.FC<PagePropsType> = (props) => {
-    return <User a={props.age} n={props.name} />
-}
-type UserPropsType = {
-    a: number
-    n: string
-}
-export const User: React.FC<UserPropsType> = (props) => {
-    return <div>name: {props.n}, age: {props.a}</div>
+import React, {MouseEvent} from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function Button() {
+    const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+        console.log((typeof e) === 'object')
+    }
+    return <button onClick={onClickHandler} >Click</button>
 }
 
-// Что нужно написать вместо xxx и yyy? 
-// Ответ дайте через пробел, например: blabla onClick(props)
+
+ReactDOM.render(
+    <Button/>, document.getElementById('root')
+);
+
+// Что надо написать вместо ххх, чтобы в консоль вывело true?
