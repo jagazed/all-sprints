@@ -39,11 +39,16 @@
 }
 .counterBox {
   background-color: #2a2c35;
-  max-width: 100px;
+  max-width: 130px;
   min-height: 80px;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 15px;
   border-radius: 10px;
+}
+.maxValue {
+  color:  #66d9ff;
+  padding-bottom: 10px;
 }
 .counter {
   background-color: #66d9ff;
@@ -59,30 +64,47 @@
   font-weight: bold;
   color: red;
   width: 80%;
-  margin: 0 auto 10px;
+  margin: 0 auto;
   border-radius: 5px;
 }
 .incButton{
   background-color: #67dafd;
   border: none;
   border-radius: 5px;
-  margin-right: 8px;
+  margin-right: 15px;
 }
 .incButton-disabled{
   background-color: #437183;
   border: none;
   color: #31283f;
   border-radius: 5px;
-  margin-right: 8px;
+  margin-right: 15px;
 }
 button:disabled {
   background-color: #437183;
   color: #31283f;
 }
 
-
 .resButton {
   background-color: #67dafd;
   border: none;
   border-radius: 5px;
 }
+
+.progress-container {
+  width: 78%;
+  margin: 15px auto 10px;
+  height: 5px;
+  background-color: #2a2c35;
+  border: 1px solid #66d9ff;
+  border-radius: 5px;
+}
+
+.progress-bar {
+  height: 5px;
+  background-color: #66d9ff;
+  text-align: center;
+  color: #66d9ff;
+  border-radius: 5px;
+}
+

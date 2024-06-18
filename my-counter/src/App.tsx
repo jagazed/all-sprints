@@ -1,20 +1,23 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './App.css';
-import {Counter, ValueState} from "./Counter";
+import {Counter, RandomState, ValueState} from "./Counter";
 
 function App() {
     const maxCount = 5
     const minCount = 0
     const [value, setValue] = useState<ValueState>(minCount)
+    const randomValue = useRef<RandomState>(maxCount)
 
     const addCounter = () => {
-        if (value < maxCount) {
+        if (value < randomValue.current) {
             //setValue(value +1)
             setValue(prevState => prevState +1)
         }
     }
 
     const resetCounter = () => {
+        const maxValue = Math.floor(Math.random()*10)
+        maxValue === 0 ? randomValue.current = 1 : randomValue.current = maxValue;
         setValue(minCount)
     }
     return (
@@ -23,7 +26,7 @@ function App() {
                 addCounter={addCounter}
                 resetCounter={resetCounter}
                 counterValue={value}
-                maxCount={maxCount}
+                randomValue={randomValue.current}
                 minCount={minCount}
             />
         </div>
