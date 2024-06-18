@@ -10,7 +10,6 @@ function App() {
 
     const addCounter = () => {
         if (value < randomValue.current) {
-            //setValue(value +1)
             setValue(prevState => prevState +1)
         }
     }
