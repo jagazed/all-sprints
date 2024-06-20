@@ -6,11 +6,11 @@ type CounterPropsType = {
     addCounter: () => void
     resetCounter: () => void
     counterValue: ValueState
-    randomValue: RandomState
+    randomValue: RandomRef
 }
 
 export type ValueState = number;
-export type RandomState = number;
+export type RandomRef = number;
 export const Counter = (
     {
         minCount,

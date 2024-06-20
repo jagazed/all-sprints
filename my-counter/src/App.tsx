@@ -1,12 +1,12 @@
 import React, {useRef, useState} from 'react';
 import './App.css';
-import {Counter, RandomState, ValueState} from "./Counter";
+import {Counter, RandomRef, ValueState} from "./Counter";
 
 function App() {
     const maxCount = 5
     const minCount = 0
     const [value, setValue] = useState<ValueState>(minCount)
-    const randomValue = useRef<RandomState>(maxCount)
+    const randomValue = useRef<RandomRef>(maxCount)
 
     const addCounter = () => {
         if (value < randomValue.current) {
