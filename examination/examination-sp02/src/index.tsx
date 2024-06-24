@@ -1,21 +1,40 @@
-import React, {useState, MouseEvent, ChangeEvent} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { ChangeEvent, useState } from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
 
-function User() {
-    const [userName, setUserName] = useState<string>("")
+const MIN_COMMENT_SIZE = 5
+
+function LongCommentChecker() {
+    const [comment, setComment] = useState<string>('')
+    const isCommentReady = comment.length > MIN_COMMENT_SIZE
+
+    const onClickSendComment = () => {
+        if (isCommentReady) {
+            setComment('')
+        }
+    }
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const newComment = e.currentTarget.value
+
+        setComment(newComment)
+    }
+
     return (
-        <div>
-            <p>{userName}</p>
-            <input
-                value={userName}
-                onChange={(e) => setUserName(e.currentTarget.value)}
+        <main>
+            <textarea
+                placeholder={'Your comment must have more than 5 charters'}
+                value={comment}
+                onChange={onChangeHandler}
             />
-        </div>
+            <div>
+                <button
+                    disabled={!isCommentReady }
+                    onClick={onClickSendComment}>
+                    Send comment
+                </button>
+            </div>
+        </main>
     )
 }
 
-ReactDOM.render(
-    <User/>, document.getElementById('root')
-);
-// Что надо написать вместо ххх, чтобы инпут был контролируемым?
+ReactDOM.render(<LongCommentChecker/>, document.getElementById('root'))
