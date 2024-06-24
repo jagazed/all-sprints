@@ -1,40 +1,39 @@
-import React, { ChangeEvent, useState } from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
+import React, {ChangeEvent, useState} from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
 
-const MIN_COMMENT_SIZE = 5
+function Colorize() {
 
-function LongCommentChecker() {
-    const [comment, setComment] = useState<string>('')
-    const isCommentReady = comment.length > MIN_COMMENT_SIZE
+    const [color, setColor] = useState<string>("black")
+    const colors = ["red", "yellow", "green", "blue", "violet", "chartreuse"]
 
-    const onClickSendComment = () => {
-        if (isCommentReady) {
-            setComment('')
-        }
+    const styles = {
+        width: "100px",
+        height: "100px",
+        borderRadius: "50%",
+        backgroundColor: "black"
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const newComment = e.currentTarget.value
 
-        setComment(newComment)
+    const getColor = (colors: string[]) => {
+        const nextColor = colors[Math.floor(Math.random() * colors.length)]
+        return nextColor
     }
 
     return (
         <main>
-            <textarea
-                placeholder={'Your comment must have more than 5 charters'}
-                value={comment}
-                onChange={onChangeHandler}
-            />
+            <div style={{...styles, backgroundColor: color}}/>
             <div>
                 <button
-                    disabled={!isCommentReady }
-                    onClick={onClickSendComment}>
-                    Send comment
+                    onClick={() => setColor(getColor(colors))}
+                >
+                    Get random color
                 </button>
             </div>
         </main>
     )
 }
 
-ReactDOM.render(<LongCommentChecker/>, document.getElementById('root'))
+ReactDOM.render(
+    <Colorize/>, document.getElementById('root')
+);
+// Что надо вставить вместо XXX, чтобы круг менял цвет по клику?
