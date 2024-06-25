@@ -1,56 +1,44 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import './App.css';
-import {Counter, MaxValueState, StartValueState, ValueState} from "./Counter";
+import {Counter, RandomRef, ValueState} from "./Counter";
 
 function App() {
     const maxCount = 5
-    const minCount = 0
+    let minCount = 0
     const [value, setValue] = useState<ValueState>(minCount)
-    //const randomValue = useRef<RandomRef>(maxCount)
-    const [startValue, setStartValue] = useState<StartValueState>('')
-    const [maxValue, setMaxValue] = useState<MaxValueState>('')
+    const randomValue = useRef<RandomRef>(maxCount)
 
     const addCounter = () => {
-        if (Number(startValue) < Number(maxValue)) {
-            setValue(prevState => prevState + 1)
+        if (value < randomValue.current) {
+            setValue(prevState => prevState +1)
         }
     }
 
-    const changeMaxValueCounter = (event: ChangeEvent<HTMLInputElement>) => {
-        setMaxValue(event.currentTarget.value)
-    }
-    const changeStartValueCounter = (event: ChangeEvent<HTMLInputElement>) => {
-        setStartValue(event.currentTarget.value)
-    }
-
-    const setCounter = () => {
-        const newMaxValue = Number(maxValue)
-        setValue(newMaxValue)
-        setValue(value)
-    }
-
-    const resetCounter = () => {
-        // const maxValue = Math.floor(Math.random()*10)
-        // maxValue === 0 ? randomValue.current = 1 : randomValue.current = maxValue;
+    const setCounter = (maxNumber: number) => {
+        randomValue.current = maxNumber
+        console.log("maxNumber: ", maxNumber)
         setValue(minCount)
     }
+
+    const setCounter2 = (startNumber: number) => {
+        minCount = startNumber
+        console.log("startNumber: ", startNumber)
+        setValue(minCount)
+    }
+
+
     return (
         <div className="App">
             <Counter
-                setCounter={setCounter}
-                changeMaxValueCounter={changeMaxValueCounter}
-                changeStartValueCounter={changeStartValueCounter}
-                maxValue={maxValue}
-                startValue={startValue}
-
                 addCounter={addCounter}
-                resetCounter={resetCounter}
                 counterValue={value}
-                //randomValue={maxCount}
+                randomValue={randomValue.current}
                 minCount={minCount}
+                maxCount={maxCount}
+                updateMaxValue={setCounter}
+                updateStartValue={setCounter2}
             />
         </div>
     );
 }
-
 export default App;

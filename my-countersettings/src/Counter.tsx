@@ -1,75 +1,74 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Button} from "./Button";
 
 type CounterPropsType = {
     minCount: number
+    maxCount: number
     addCounter: () => void
-    resetCounter: () => void
     counterValue: ValueState
-    //randomValue: RandomRef
+    randomValue: RandomRef
 
-    setCounter: () => void
-    changeMaxValueCounter: (event: ChangeEvent<HTMLInputElement>) => void
-    changeStartValueCounter: (event: ChangeEvent<HTMLInputElement>) => void
-    maxValue: MaxValueState
-    startValue: StartValueState
-
+    updateMaxValue: (maxValueCounter: number) => void
+    updateStartValue: (startValueCounter: number) => void
 }
 
-export type ValueState = number
-export type MaxValueState = string
-export type StartValueState = string
+export type ValueState = number;
+export type RandomRef = number;
 export const Counter = (
     {
         minCount,
+        maxCount,
         addCounter,
-        resetCounter,
         counterValue,
-        //randomValue,
+        randomValue,
+        updateMaxValue,
+        updateStartValue
 
-        setCounter,
-        changeMaxValueCounter,
-        changeStartValueCounter,
-        maxValue,
-        startValue
     }: CounterPropsType) => {
 
-    const counterDisabled = startValue >= maxValue
-    const resetDisabled = startValue === minCount.toString()
+    const [maxValueCounter, setMaxValueCounter] = useState(maxCount)
+    const [startValueCounter, setStartValueCounter] = useState(minCount)
+
+    const counterDisabled = counterValue >= maxValueCounter
+    const resetDisabled = counterValue <= startValueCounter
+
+    const changeMaxValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setMaxValueCounter(Number(event.currentTarget.value))
+        //console.log(Number(event.currentTarget.value))
+    }
+    const changeMinValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setStartValueCounter(Number(event.currentTarget.value))
+    }
+
+    const setNewValueCounter = () => {
+        updateMaxValue(maxValueCounter)
+        updateStartValue(startValueCounter)
+    }
 
     return (
         <>
             <div className={"counterSettings"}>
                 <div>max value:
-                    <input
-                        type={"number"}
-                        onChange={changeMaxValueCounter}
-                        placeholder={maxValue.toString()}
-
-                    />
+                    <input type={"number"} value={maxValueCounter} onChange={changeMaxValueHandler} />
                 </div>
                 <div>start value:
-                    <input
-                        type={"number"}
-                        onChange={changeStartValueCounter}
-                        placeholder={counterValue.toString()}
-
-                    />
+                    <input type={"number"} value={startValueCounter} onChange={changeMinValueHandler} />
                 </div>
-                <div><Button title={"set"} onClickHandler={setCounter}/></div>
+                <div><Button title={"set"} onClickHandler={setNewValueCounter}/></div>
             </div>
             <div className={"counterBox"}>
-                <div className={"maxValue"}>Max value: {maxValue}</div>
-                <div className={startValue === maxValue ? "counter-full" : "counter"}>{startValue}</div>
+                <div className={"maxValue"}>Max value: {randomValue}</div>
+                <div className={counterValue === randomValue ? "counter-full" : "counter"}>{counterValue}</div>
 
                 <div className="progress-container">
-                    <div className="progress-bar" style={{width: `${(100 / Number(maxValue)) * Number(startValue)}%`}}></div>
+                    <div className="progress-bar" style={{width: `${(100 / randomValue) * counterValue}%`}}></div>
                 </div>
 
                 <Button classes={"incButton"} title={"inc"} onClickHandler={addCounter} disabled={counterDisabled}/>
-                <Button classes={"resButton"} title={"reset"} onClickHandler={resetCounter} disabled={resetDisabled}/>
+                <Button classes={"resButton"} title={"reset"} onClickHandler={setNewValueCounter} disabled={resetDisabled}/>
             </div>
         </>
 
-    );
+    )
+        ;
 };
