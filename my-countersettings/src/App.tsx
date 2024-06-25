@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './App.css';
 import {Counter, RandomRef, ValueState} from "./Counter";
 
