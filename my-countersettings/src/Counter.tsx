@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {Button} from "./Button";
 
 type CounterPropsType = {
@@ -6,34 +6,70 @@ type CounterPropsType = {
     addCounter: () => void
     resetCounter: () => void
     counterValue: ValueState
-    randomValue: RandomRef
+    //randomValue: RandomRef
+
+    setCounter: () => void
+    changeMaxValueCounter: (event: ChangeEvent<HTMLInputElement>) => void
+    changeStartValueCounter: (event: ChangeEvent<HTMLInputElement>) => void
+    maxValue: MaxValueState
+    startValue: StartValueState
+
 }
 
-export type ValueState = number;
-export type RandomRef = number;
+export type ValueState = number
+export type MaxValueState = string
+export type StartValueState = string
 export const Counter = (
     {
         minCount,
         addCounter,
         resetCounter,
         counterValue,
-        randomValue
+        //randomValue,
+
+        setCounter,
+        changeMaxValueCounter,
+        changeStartValueCounter,
+        maxValue,
+        startValue
     }: CounterPropsType) => {
 
-    const counterDisabled = counterValue > randomValue
-    const resetDisabled = counterValue === minCount
+    const counterDisabled = startValue >= maxValue
+    const resetDisabled = startValue === minCount.toString()
 
     return (
-        <div className={"counterBox"}>
-            <div className={"maxValue"}>Max value: {randomValue}</div>
-            <div className={counterValue === randomValue ? "counter-full" : "counter"}>{counterValue}</div>
+        <>
+            <div className={"counterSettings"}>
+                <div>max value:
+                    <input
+                        type={"number"}
+                        onChange={changeMaxValueCounter}
+                        placeholder={maxValue.toString()}
 
-            <div className="progress-container">
-                <div className="progress-bar" style={{width: `${(100 / randomValue) * counterValue}%`}}></div>
+                    />
+                </div>
+                <div>start value:
+                    <input
+                        type={"number"}
+                        onChange={changeStartValueCounter}
+                        placeholder={counterValue.toString()}
+
+                    />
+                </div>
+                <div><Button title={"set"} onClickHandler={setCounter}/></div>
             </div>
+            <div className={"counterBox"}>
+                <div className={"maxValue"}>Max value: {maxValue}</div>
+                <div className={startValue === maxValue ? "counter-full" : "counter"}>{startValue}</div>
 
-            <Button classes={"incButton"} title={"inc"} onClickHandler={addCounter} disabled={counterDisabled}/>
-            <Button classes={"resButton"} title={"reset"} onClickHandler={resetCounter} disabled={resetDisabled}/>
-        </div>
+                <div className="progress-container">
+                    <div className="progress-bar" style={{width: `${(100 / Number(maxValue)) * Number(startValue)}%`}}></div>
+                </div>
+
+                <Button classes={"incButton"} title={"inc"} onClickHandler={addCounter} disabled={counterDisabled}/>
+                <Button classes={"resButton"} title={"reset"} onClickHandler={resetCounter} disabled={resetDisabled}/>
+            </div>
+        </>
+
     );
 };
