@@ -5,7 +5,6 @@ export type AccordionValueType = boolean
 type AccordionPropsType = {
     titleValue: string
     collapsed: boolean
-    //value: boolean
     onChange: () => void
 }
 export function Accordion(props: AccordionPropsType) {

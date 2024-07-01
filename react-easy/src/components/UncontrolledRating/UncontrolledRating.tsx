@@ -1,9 +1,13 @@
 import React, {useState} from "react";
 
+export type RatingValueType = 0 | 1 | 2 | 3 | 4 | 5
 
-export function UncontrolledRating() {
+type RatingPropsType = {
+    defaultValue? : RatingValueType
+}
+export function UncontrolledRating (props: RatingPropsType) {
     console.log("Rating rendering")
-    let [value, setValue] = useState(0)
+    let [value, setValue] = useState<RatingValueType>(props.defaultValue ? props.defaultValue : 0)
     return (
         <div>
             <Star selected={value > 0} setValue={() => setValue(1)} />

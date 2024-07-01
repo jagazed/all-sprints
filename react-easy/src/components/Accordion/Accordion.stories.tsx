@@ -4,18 +4,16 @@ import {Accordion} from './Accordion';
 import React, {useState} from "react";
 
 export default {
+    title: 'Accordion',
     component: Accordion
 };
 
+const callback = action("accordion mode change event fired")
 const onChangeHandler = action('onChange')
-export const CollapsedAccordion = () => {
-    return <Accordion titleValue = {"Collapsed Accordion"} collapsed={true} onChange={onChangeHandler} />
-}
+export const MenuCollapsedMode = () => <Accordion titleValue = {"Menu"} collapsed={true} onChange={callback} />
+export const UsersUncollapsedMode = () => <Accordion titleValue = {"Users"} collapsed={false} onChange={callback} />
 
-export const OpenedAccordion = () => {
-    return <Accordion titleValue = {"Opened Accordion"} collapsed={false} onChange={() => {}} />
-}
 export const AccordionDemo = () => {
-    const [collapsed, setCollapsed] = useState(false)
-    return <Accordion titleValue = {"Accordion"} collapsed={collapsed} onChange={() => {setCollapsed(!collapsed)}} />
+    const [value, setValue] = useState(false)
+    return <Accordion titleValue = {"Accordion"} collapsed={value} onChange={() => {setValue(!value)}} />
 }
