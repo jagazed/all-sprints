@@ -1,13 +1,27 @@
-import React from 'react';
-type UserPropsType = {
+type StudentType = {
+    id: number
     name: string
-    description: string
 }
-export const User: React.FC<UserPropsType> = (props) => {
-    return <div>
-        <h1>Имя: {props.name}</h1>
-        <div>Описание: {props.description}</div>
-    </div>
+type FriendsType = {
+    [key: string]: Array<String>
 }
+export const students: Array<StudentType> = [
+    {id: 1, name: "Bob"},
+    {id: 2, name: "Alex"},
+    {id: 3, name: "Ann"},
+    {id: 4, name: "Charley"},
+]
+export const friends: FriendsType = {
+    1: ["Oliver", "Jack", "Oscar",],
+    2: ["Jack", "Lewis", "Thomas",],
+    3: ["William", "Michael", "Lewis",],
+    4: ["Oscar", "James", "William",],
+}
+console.log("result",friends[students[0].id][3])
 
-//Что нужно написать вместо ххх, что бы код работал?
+//Дан список студентов и структура,
+//которая содержит список друзей каждого из студентов.
+//Id студента является ключом к массиву его друзей.
+//Какое значение лежит тут: friends[students[0].id][3]?
+
+
