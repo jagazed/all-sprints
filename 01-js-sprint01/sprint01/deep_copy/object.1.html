@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    let age = 18;
+    let age2 = age;
+
+    const a = {
+        name: 'it-kamasutra.com',
+        protocol: "https",
+        maxStudentsCount: 10,
+        isOnline: true,
+        students: ['ivan', 'andrey', 'farid'],
+        classroom: {
+            teacher: {
+                name: 'wew',
+                age: 18
+            }
+        }
+    }
+
+    const b = {...a}
+    //b.classroom.teacher.name = 'Dmitry'
+    b.classroom = {...a.classroom};
+    b.classroom.teacher = {...a.classroom.teacher};
+    b.students = [...a.students];
+    b.classroom.teacher.name = 'Dmitry'
+    console.log(b.classroom.teacher.name, a.classroom.teacher.name)
+</script>
+</html>
