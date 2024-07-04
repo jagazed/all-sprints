@@ -136,21 +136,29 @@
                     name: "Kevin",
                     age: 80,
                     favoriteDish: {
-                        title: "borscht"
+                        title: "borscht",
+                        pop: "abbb"
                     }
                 },
                 {
                     name: "Jennifer",
                     age: 78,
                     favoriteDish: {
-                        title: "sushi"
-                    }
-                },
-            ]
-        }
-    };
+                        title: "sushi",
+                        pop: "aaa"
+                    }},]}};
 
-    let man6FullCopy  //  your code
+    let man6FullCopy = {...man6, mother: {...man6.mother, work: {...man6.mother.work}, parents:
+                man6.mother.parents.map(el => {
+                    return {
+                        ...el, favoriteDish: {...el.favoriteDish}
+                    }
+                    })}};
+
+    // man6FullCopy.mother.parents[0].favoriteDish.title = 'porsh'
+    // console.log("man6", man6.mother.parents[0].favoriteDish.title)
+    // console.log("man6FullCopy", man6FullCopy.mother.parents[0].favoriteDish.title)
+    // console.log(man6FullCopy)
 
 
     //10 Array of objects inside an object -> object -> array -> object ->  object
@@ -192,6 +200,14 @@
         }
     };
 
-    let man7FullCopy  //  your code
+    let man7FullCopy  = {...man7, mother: {...man7.mother, work: {...man7.mother.work}, parents:
+        man7.mother.parents.map(el => {return {...el, favoriteDish: {...el.favoriteDish,
+                title: el.favoriteDish.title, ingredients: el.favoriteDish.ingredients.map(t=> ({...t}))}}})}};
+    man7.mother.parents[0].favoriteDish.ingredients[0].amount = 22
+    man7FullCopy.mother.parents[1].favoriteDish.ingredients[1].amount = 33
+    console.log("man7", man7)
+    console.log("man7FullCopy", man7FullCopy)
+    console.log("man7_parents",man7.mother.parents)
+    console.log("man7FullCopy_ par",man7FullCopy.mother.parents)
 
 </script>
