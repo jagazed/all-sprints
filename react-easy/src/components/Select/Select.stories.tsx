@@ -8,11 +8,26 @@ export default {
     component: Select
 };
 
-export const SelectCollapsedMode = () => {
+export const WithValue = () => {
     return (
         <>
-            <Select value={1} onChange={()=>{}} items={[]}/>
-            <p>asdasd</p>
+            <Select value={2} onChange={action("value changed")} items={[
+                {value: 1, title: "Minsk"},
+                {value: 2, title: "Kiev"},
+                {value: 3, title: "Moscow"}
+            ]}/>
+        </>
+    )
+}
+
+export const WithoutValue = () => {
+    return (
+        <>
+            <Select onChange={action("value changed")} items={[
+                {title: "Minsk", value: 1},
+                {title: "Kiev", value: 2},
+                {title: "Moscow", value: 3}
+            ]}/>
         </>
     )
 }

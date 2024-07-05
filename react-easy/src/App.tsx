@@ -6,11 +6,15 @@ import {Accordion} from "./components/Accordion/Accordion";
 import {OnOff} from "./components/OnOff/OnOff";
 import {UncontrolledAccordion} from "./components/UncontrolledAccordion/UncontrolledAccordion";
 import {UncontrolledOnOff} from "./components/UncontrolledOnOff/UncontrolledOnOff";
+import {Select} from "./components/Select/Select";
+import {SelectAdd} from "./components/Select/SelectAdd";
 
 function App() {
     let [ratingValue, setRatingValue] = useState<RatingValueType>(0)
     let [accordionCollapsed, setAccordionCollapsed] = useState<boolean>(true)
     let [switchOn, setSwitchOn] = useState<boolean>(false)
+    const [selectedValue, setSelectedValue] = useState(1); // for SelectedAdd
+
 
     return (
         <div className={"App"}>
@@ -36,6 +40,19 @@ function App() {
             <Rating value={ratingValue} onClick={setRatingValue}/>
             <UncontrolledOnOff onChange={setSwitchOn} /> {switchOn.toString()}
             <OnOff on={switchOn} onChange={ (on) => {setSwitchOn(on)}} />
+            <SelectAdd value={selectedValue}
+                       onChange={setSelectedValue} items={[
+                {title: "none", value: 1},
+                {title: "Minsk", value: 2},
+                {title: "Kiev", value: 3}
+            ]}/>
+
+            <Select value={2} onChange={()=>{}} items={[
+                {title: "none", value: 1},
+                {title: "Minsk", value: 2},
+                {title: "Kiev", value: 3}
+            ]} />
+
         </div>
     );
 }
