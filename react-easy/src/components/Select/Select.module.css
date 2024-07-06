@@ -1,12 +1,20 @@
-.select {
+.select span.main{
     border: 1px solid black;
+    display: inline-block;
+    min-height: 20px;
+    min-width: 40px;
+    padding: 2px 4px;
 }
 .items {
-    display: none;
+    /*display: none;*/
     position: absolute;
     padding: 5px;
     border: 1px solid black;
 }
 .select.active .items{
-    display: block;
+    /*display: block;*/
+}
+.item.selected{
+    background-color: blue;
+    color: white;
 }

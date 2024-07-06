@@ -9,9 +9,10 @@ export default {
 };
 
 export const WithValue = () => {
+    const [value, setValue] = useState(2)
     return (
         <>
-            <Select value={2} onChange={action("value changed")} items={[
+            <Select value={value} onChange={setValue} items={[
                 {value: 1, title: "Minsk"},
                 {value: 2, title: "Kiev"},
                 {value: 3, title: "Moscow"}
@@ -21,9 +22,10 @@ export const WithValue = () => {
 }
 
 export const WithoutValue = () => {
+    const [value, setValue] = useState(null)
     return (
         <>
-            <Select onChange={action("value changed")} items={[
+            <Select value={value} onChange={setValue} items={[
                 {title: "Minsk", value: 1},
                 {title: "Kiev", value: 2},
                 {title: "Moscow", value: 3}
