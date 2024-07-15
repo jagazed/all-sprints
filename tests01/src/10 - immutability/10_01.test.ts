@@ -1,12 +1,13 @@
 import {
-    addNewBooksToUser,
+    addCompany,
+    addNewBooksToUser, changeBook,
     makeHairstyle,
     moveUser,
-    moveUserToOtherHouse,
+    moveUserToOtherHouse, removeBook, updateBook, updateCompany,
     upgradeUserLaptop,
     UserType,
     UserWithBooksType,
-    UserWithLaptopType
+    UserWithLaptopType, WithCompaniesType
 } from "./10_01";
 
 test('reference type test', () => {
@@ -119,4 +120,95 @@ test('add new books to user', () => {
     expect(user.books).not.toBe(userCopy.books)
     expect(userCopy.books[4]).toBe('ts')
     expect(userCopy.books[5]).toBe('rest api')
+})
+
+test('change book', () => {
+    let user: UserWithLaptopType & UserWithBooksType = {
+        name: 'Dimych',
+        hair: 32,
+        address: {
+            city: 'Minsk',
+            house: 12
+        },
+        laptop: {
+            title: 'ZenBook'
+        },
+        books: ['css', 'html', 'js', 'react']
+    }
+
+    const userCopy = updateBook(user, 'js', 'ts')
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.books).not.toBe(userCopy.books)
+    expect(userCopy.books[2]).toBe('ts')
+})
+
+test('remove js book', () => {
+    let user: UserWithLaptopType & UserWithBooksType = {
+        name: 'Dimych',
+        hair: 32,
+        address: {
+            city: 'Minsk',
+            house: 12
+        },
+        laptop: {
+            title: 'ZenBook'
+        },
+        books: ['css', 'html', 'js', 'react']
+    }
+
+    const userCopy = removeBook(user, 'js')
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.books).not.toBe(userCopy.books)
+    expect(userCopy.books[2]).toBe('react')
+})
+
+test('add company', () => {
+    let user: UserWithLaptopType & WithCompaniesType = {
+        name: 'Dimych',
+        hair: 32,
+        address: {
+            city: 'Minsk',
+            house: 12
+        },
+        laptop: {
+            title: 'ZenBook'
+        },
+        companies: [{id: 1, title: 'Epam'}, {id: 2, title: "IT-INCUBATOR"}]
+    }
+
+    const userCopy = addCompany(user, [{id: 3, title: "google"}])
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.companies).not.toBe(userCopy.companies)
+    expect(userCopy.companies[2].title).toBe("google")
+})
+
+test('update company', () => {
+    let user: UserWithLaptopType & WithCompaniesType = {
+        name: 'Dimych',
+        hair: 32,
+        address: {
+            city: 'Minsk',
+            house: 12
+        },
+        laptop: {
+            title: 'ZenBook'
+        },
+        companies: [{id: 1, title: 'Eпam'}, {id: 2, title: "IT-INCUBATOR"}]
+    }
+
+    const userCopy = updateCompany(user, 1, 'EPAM') as UserWithLaptopType & WithCompaniesType
+
+    expect(user).not.toBe(userCopy)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.companies).not.toBe(userCopy.companies)
+    expect(userCopy.companies[0].title).toBe("EPAM")
 })
