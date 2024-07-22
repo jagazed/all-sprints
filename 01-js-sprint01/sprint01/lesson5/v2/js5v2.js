@@ -135,31 +135,57 @@
 // counter();
 // counter();
 
-//6
-const counterCreator = () => {
-    // -> globalLE // сразу ничего а потом вот эта строка при первом вызове
-    // counterCreatorLE {} -> globalLE
-    let count = 0; // counterCreatorLE {count: 0} -> globalLE
+// --------------
+// 6
+// самый важный пример
+// const counterCreator = () => {
+//     // -> globalLE // сразу ничего а потом вот эта строка при первом вызове
+//     // counterCreatorLE {} -> globalLE
+//     let count = 0; // counterCreatorLE {count: 0} -> globalLE
+//
+//     return () => {
+//         // {} -> counterCreatorLE
+//         console.log(++count);
+//     };
+// }
+//
+// const counter1 = counterCreator(); //ссылка на функцию //globalLE {counter: func} -> null
+// const counter2 = counterCreator(); //ссылка на функцию //globalLE {counter: func} -> null
+//
+// console.log(counter1 === counter2); //false
+//
+// counter1();
+// counter1();
+// counter1();
+//
+// counter2();
+// counter2();
+// counter2();
 
-    return () => {
-        // {} -> counterCreatorLE
-        console.log(++count);
-    };
+// --------------
+// 7
+// рекурсия
+
+// 2(4) --> 2 * 2(3) --> 2 * 2 * 2(2) --> 2 * 2 * 2 * 2(1)
+// const pow = (x, n) => {
+//     if (n === 1) { //условия выхода из рекурсия
+//         return x
+//     } else {
+//         return x * pow(x, n-1) //шаг рекурсии n-1
+//     }
+// }
+// pow(2,4)
+// console.log(pow)
+// шаг рекурсии
+// условия выхода из рекурсия
+
+// 8
+// 5! --> 5 + 4! --> 5 * 4 * 3! --> 5 * 4 * 3 * 2! --> 5 * 4 * 3 * 2 * 1!
+const factorial = (n) => {
+    if (n === 1){
+        return n
+    } else {
+        return n * factorial(n-1)
+    }
 }
-
-const counter1 = counterCreator(); //ссылка на функцию //globalLE {counter: func} -> null
-const counter2 = counterCreator(); //ссылка на функцию //globalLE {counter: func} -> null
-
-console.log(counter1 === counter2); //false
-
-counter1();
-counter1();
-counter1();
-
-counter2();
-counter2();
-counter2();
-
-
-
-
+console.log(factorial(12))
