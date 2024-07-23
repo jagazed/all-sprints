@@ -1,22 +1,34 @@
-import React, {useState, MouseEvent} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-function ColorButton() {
-    const [isColored, setIsColored] = useState<boolean>(false)
-    return (
-        <button
-            style={{ backgroundColor: `${ isColored === true ? "red": ""}`}}
-            onClick={()=>setIsColored(true)}
-        >
-            Меняю цвет по клику
-        </button>
-    )
+type Status = 'Stopped' | 'Playing' | 'Paused'
+type StateType = {
+    volume: number // in percents
+    trackUrl: string // 'https://blabla.com/track01.mp3',
+    currentPlayPosition: number // milliseconds,
+    status: Status
+}
+export const playerReducer = (state: StateType, action: any) => {
+    switch (action.type) {
+        case 'TRACK-STATUS-CHANGED':
+            return {
+                ...state,
+                status: action.status
+            }
+        default:
+            return state
+    }
 }
 
+const muteTrackAC = () => ({type: 'TRACK-MUTED'})
+const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
+const changeTrackPlayStatusAC = (status: Status) => ({type: 'TRACK-STATUS-CHANGED', status})
 
-ReactDOM.render(
-    <ColorButton/>, document.getElementById('root')
-);
+const state: StateType = {
+    status: 'Stopped',
+    currentPlayPosition: 1213,
+    trackUrl: 'https://blabla.com/track01.mp3',
+    volume: 100
+}
 
-// Что надо написать вместо XXX, чтобы при клике кнопка становилась красной?
+const newState = playerReducer(state, changeTrackPlayStatusAC('Paused'))
+console.log(newState.status === 'Paused')
+
+//Напишите вместо XXX правильный вызов правильного AC, чтобы в консоли было true
