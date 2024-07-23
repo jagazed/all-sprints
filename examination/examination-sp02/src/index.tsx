@@ -7,10 +7,10 @@ type StateType = {
 }
 export const playerReducer = (state: StateType, action: any) => {
     switch (action.type) {
-        case 'TRACK-STATUS-CHANGED':
+        case 'TRACK-VOLUME-CHANGED':
             return {
                 ...state,
-                status: action.status
+                volume: action.volumeLevel
             }
         default:
             return state
@@ -18,6 +18,7 @@ export const playerReducer = (state: StateType, action: any) => {
 }
 
 const muteTrackAC = () => ({type: 'TRACK-MUTED'})
+const changeVolumeAC = (volumeLevel: number) => ({type: 'TRACK-VOLUME-CHANGED', volumeLevel})
 const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
 const changeTrackPlayStatusAC = (status: Status) => ({type: 'TRACK-STATUS-CHANGED', status})
 
@@ -27,8 +28,7 @@ const state: StateType = {
     trackUrl: 'https://blabla.com/track01.mp3',
     volume: 100
 }
+const newState = playerReducer(state, changeVolumeAC(20))
+console.log(newState.volume === 20)
 
-const newState = playerReducer(state, changeTrackPlayStatusAC('Paused'))
-console.log(newState.status === 'Paused')
-
-//Напишите вместо XXX правильный вызов правильного AC, чтобы в консоли было true
+// Напишите вместо XXX правильную строку кода, чтобы изменить громкость трека и увидеть в консоли true.
