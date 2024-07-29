@@ -8,6 +8,7 @@ import {UncontrolledAccordion} from "./components/UncontrolledAccordion/Uncontro
 import {UncontrolledOnOff} from "./components/UncontrolledOnOff/UncontrolledOnOff";
 import {Select} from "./components/Select/Select";
 import {SelectAdd} from "./components/Select/SelectAdd";
+import {debug} from "node:util";
 
 function App() {
     let [ratingValue, setRatingValue] = useState<RatingValueType>(0)
@@ -48,6 +49,7 @@ function App() {
             ]}/>
 
             <Select value={2} onChange={()=>{}} items={[
+
                 {title: "none", value: 1},
                 {title: "Minsk", value: 2},
                 {title: "Kiev", value: 3}

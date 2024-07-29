@@ -13,7 +13,6 @@ type SelectPropsType = {
 }
 
 export function Select(props: SelectPropsType) {
-
     const [active, setActive] = useState(false)
     const [hoveredElementValue, setHoveredElementValue] = useState(props.value)
 
@@ -23,7 +22,6 @@ export function Select(props: SelectPropsType) {
     useEffect(() => {
         setHoveredElementValue(props.value)
     }, [props.value]);
-
     const toggleItems = () => setActive(!active)
     const onItemClick = (value: any) => {
         props.onChange(value)
