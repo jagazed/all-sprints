@@ -1,3 +1,19 @@
-const indices = [1, 0];
-const value = [0, [1, 0]][indices[0]][indices[1]]; // 1
-console.log(value)
+import {combineReducers, createStore} from 'redux'
+
+let initialState = {items: [{name: 'Dimych'}, {name: 'Ignat'}]}
+const usersReducer = (state = initialState, action: any) => {
+    return state
+}
+
+const store = createStore(combineReducers({
+    users: usersReducer
+}))
+
+store.subscribe(() => {
+    const state = store.getState()
+    console.log(state)
+})
+
+store.dispatch({type: 'ANY'})
+
+//Что нужно написать вместо XXX, чтобы получить актуальный стейт?

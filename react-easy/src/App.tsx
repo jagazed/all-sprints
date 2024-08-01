@@ -8,7 +8,6 @@ import {UncontrolledAccordion} from "./components/UncontrolledAccordion/Uncontro
 import {UncontrolledOnOff} from "./components/UncontrolledOnOff/UncontrolledOnOff";
 import {Select} from "./components/Select/Select";
 import {SelectAdd} from "./components/Select/SelectAdd";
-import {debug} from "node:util";
 
 function App() {
     let [ratingValue, setRatingValue] = useState<RatingValueType>(0)
