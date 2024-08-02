@@ -33,22 +33,22 @@
 
 
 
-fetchPromise ("https://booksstore.com/authors")
-    .then((data) => {
-        return fetchPromise("https://booksstore.com/authors/${data.authorId}");
-    })
-    .then((data) => {
-        return fetchPromise("https://booksstore.com/authors/autorId/${data.books}");
-    })
-    .then((data) => {
-        return fetchPromise("https://booksstore.com/authors/autorId/books/${data.bookId}");
-    })
-    .then((data) => {
-        return fetchPromise("https://booksstore.com/authors/autorId/books/bookId/${data.page}");
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+// fetchPromise ("https://booksstore.com/authors")
+//     .then((data) => {
+//         return fetchPromise("https://booksstore.com/authors/${data.authorId}");
+//     })
+//     .then((data) => {
+//         return fetchPromise("https://booksstore.com/authors/autorId/${data.books}");
+//     })
+//     .then((data) => {
+//         return fetchPromise("https://booksstore.com/authors/autorId/books/${data.bookId}");
+//     })
+//     .then((data) => {
+//         return fetchPromise("https://booksstore.com/authors/autorId/books/bookId/${data.page}");
+//     })
+//     .catch((err) => {
+//         console.log(err)
+//     })
 
 
 
@@ -166,3 +166,22 @@ fetchPromise ("https://booksstore.com/authors")
 //     .then((t) => t + "then1 ")
 //     .finally((t) => t + "finally")
 //     .then((t) => console.log(t)); //reject1 catch1 then1
+
+
+const promiseFetch = (url) => {
+    return new Promise((res, rej) => {
+        fetch(url, (err, data) => {
+            if (err) {
+                rej(err)
+            } else {
+                res(data)
+            }
+        })
+    })
+}
+
+promiseFetch('http://samuray.com/users').then((data)=>{  // подписываем на res
+    console.log(data)
+}).catch(() => {
+    alert('something went wrong')
+})
