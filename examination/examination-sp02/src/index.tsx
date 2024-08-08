@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import ReactDOM from 'react-dom'
 
 export const App = () => {
