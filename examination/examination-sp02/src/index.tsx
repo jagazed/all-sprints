@@ -1,25 +1,26 @@
-export const reducer = (state: any, action: any) => {
-    switch (action.type) {
-        case 'TRACK-ADDED':
-            return {
-                ...state,
-                [action.trackId]: {
-                    id: action.trackId, likesCount: 0
-                }
-            }
-        default:
-            return state
-    }
+import {combineReducers, createStore} from 'redux'
+
+let initialState = {items: [{name: 'Dimych'}, {name: 'Ignat'}]}
+const usersReducer = (state = initialState, action: any) => {
+    return state
 }
 
-const addTrackAC = (trackId: number) => ({type: 'TRACK-ADDED', trackId})
-
-const state = {
-    12: {id: 12, likesCount: 10},
-    14: {id: 14, likesCount: 2},
-    100: {id: 100, likesCount: 0},
+let authInitialState = {login: 'Margo', settings: {theme: 'dark'}}
+const authReducer = (state = authInitialState, action: any) => {
+    return state
 }
-const newState = reducer(state, addTrackAC(300))
-console.log(newState[300].likesCount === 0)
 
-// Что нужно написать вместо XXX, чтобы в консоли увидеть true?
+const store = createStore(combineReducers({
+    users: usersReducer,
+    auth: authReducer
+}))
+
+store.subscribe(() => {
+    const login = store.getState().auth.login
+    console.log(login)
+})
+
+store.dispatch({type: 'ANY'})
+export default store;
+
+// Что нужно написать вместо XXX, чтобы в консоли увидеть 'Margo'?
