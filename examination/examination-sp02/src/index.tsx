@@ -1,23 +1,49 @@
-export const reducer = (state: any, action: any) => {
-    switch (action.type) {
-        case 'TRACK-DELETED':
-            return state.filter((track: any) => track.id !== action.trackId)
-        default:
-            return state
-    }
+import {combineReducers, createStore} from 'redux'
+import ReactDOM from 'react-dom'
+import {Provider, useSelector} from 'react-redux'
+import React from 'react'
+
+let initialState = {items:
+        [
+            {id: 1, name: 'Dimych'},
+            {id: 2, name: 'Ignat'}
+        ]
+}
+const usersReducer = (state = initialState, action: any) => {
+    return state
 }
 
-const deleteTrackAC = (trackId: number) => ({type: 'TRACK-DELETED', trackId})
+let authInitialState = {login: 'Margo', settings: {theme: 'dark'}}
+const authReducer = (state = authInitialState, action: any) => {
+    return state
+}
 
+let rootReducer = combineReducers({
+    users: usersReducer,
+    auth: authReducer
+})
 
-const state = [
-    {id: 12, likesCount: 10},
-    {id: 14, likesCount: 2},
-    {id: 100, likesCount: 0}
-]
-const newState = reducer(state, deleteTrackAC(14))
+const store = createStore(rootReducer)
+type RootStateType = ReturnType<typeof rootReducer>
 
-console.log(newState.length === 2)
+const selector = (state: RootStateType) => state.users.items
 
+const Users = () => {
 
-// Что нужно написать вместо XXX, чтобы корректно удалить трек и в консоли увидеть true?
+    const users = useSelector(selector)
+
+    return <ul>
+        {users.map(u => <li key={u.id}>{u.name}</li>)}
+    </ul>
+}
+
+ReactDOM.render(<div>
+        <Provider store={store}>
+            <Users/>
+        </Provider>
+    </div>,
+    document.getElementById('root')
+)
+
+// Что нужно написать вместо XXX, чтобы отрендерить список юзеров?
+// ❗ Ответ дать минимально возможным объёмом кода
