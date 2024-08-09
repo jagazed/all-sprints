@@ -1,26 +1,23 @@
-import {combineReducers, createStore} from 'redux'
-
-let initialState = {items: [{name: 'Dimych'}, {name: 'Ignat'}]}
-const usersReducer = (state = initialState, action: any) => {
-    return state
+export const reducer = (state: any, action: any) => {
+    switch (action.type) {
+        case 'TRACK-DELETED':
+            return state.filter((track: any) => track.id !== action.trackId)
+        default:
+            return state
+    }
 }
 
-let authInitialState = {login: 'Margo', settings: {theme: 'dark'}}
-const authReducer = (state = authInitialState, action: any) => {
-    return state
-}
+const deleteTrackAC = (trackId: number) => ({type: 'TRACK-DELETED', trackId})
 
-const store = createStore(combineReducers({
-    users: usersReducer,
-    auth: authReducer
-}))
 
-store.subscribe(() => {
-    const login = store.getState().auth.login
-    console.log(login)
-})
+const state = [
+    {id: 12, likesCount: 10},
+    {id: 14, likesCount: 2},
+    {id: 100, likesCount: 0}
+]
+const newState = reducer(state, deleteTrackAC(14))
 
-store.dispatch({type: 'ANY'})
-export default store;
+console.log(newState.length === 2)
 
-// Что нужно написать вместо XXX, чтобы в консоли увидеть 'Margo'?
+
+// Что нужно написать вместо XXX, чтобы корректно удалить трек и в консоли увидеть true?
