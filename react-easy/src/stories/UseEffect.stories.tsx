@@ -1,6 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {log} from "node:util";
-import internal from "node:stream";
+import React, {useEffect, useState} from "react";
 
 export default {
     title: 'useEffect demo'
