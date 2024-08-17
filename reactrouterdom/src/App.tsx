@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from "./components/Site.module.css";
 import {Adidas} from "./components/pages/adidas";
 import {Puma} from "./components/pages/puma";
 import {Abibas} from "./components/pages/abibas";
-import {Navigate, NavLink, Route, Routes, useParams} from 'react-router-dom';
+import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
 import {Error404} from "./components/pages/Error404";
 import {S} from "./components/pages/_styles"
 import {Model} from "./components/pages/Model";
