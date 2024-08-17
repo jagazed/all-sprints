@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const PageThree = () => {
+export const Abibas = () => {
     return (
         <div>
             <h2> ABIBAS</h2>

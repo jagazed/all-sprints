@@ -5,7 +5,7 @@ const NavWrapper = styled.div`
     font-size: 20px;
     
     & > a {
-        text-decoration: none;
+        text-decoration: underline;
         color: #1e3786;
     }
     
