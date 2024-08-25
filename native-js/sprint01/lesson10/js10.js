@@ -160,17 +160,87 @@
 // второй пример как пофиксить
 //setTimeout(car.showMaxSpeed.bind(car), 2000)
 
+
 //----------------------------
-const car = {
-    speed: 200,
-    showMaxSpeed(a, b) {
-        console.log(this.speed)
+// const car = {
+//     speed: 200,
+//     showMaxSpeed(a, b) {
+//         console.log(this.speed)
+//     }
+// }
+// const scooter = {
+//     speed: 60
+// }
+// const ferrari = {
+//     speed: 350
+// }
+// car.showMaxSpeed.bind(scooter).call(ferrari)
+
+
+//----------------------------
+// 4. Function constructor
+
+// function CarCreator(speed, brand) {
+//     this.speed = speed;
+//     this.brand = brand
+// }
+//
+// const bmw = new CarCreator(200, 'bmw');
+// const kia = new CarCreator(220, 'kia');
+//
+// console.log(bmw);
+// console.log(kia);
+//
+// function foo() {
+//     this.name = "bob"
+//     return { age: 20}
+// }
+
+
+//----------------------------
+// function foo() {
+//     // this -> window
+//     const x = 10;
+//     //this.x = 40
+//     return {
+//         //x: 20,
+//         bar: () => {
+//             console.log(this.x);
+//         },
+//         baz: function () {
+//             console.log(this.x)
+//         }
+//     }
+// }
+//
+// const obj1 = foo()
+// obj1.bar(); // undefined
+// obj1.baz(); // 20
+
+
+//----------------------------
+
+function foo() {
+    const x = 10;
+    return {
+        x: 20,
+        bar: () => {
+            console.log(this.x);
+        },
+        baz: function () {
+            console.log(this.x)
+        }
     }
 }
-const scooter = {
-    speed: 60
-}
-const ferrari = {
-    speed: 350
-}
-car.showMaxSpeed.bind(scooter).call(ferrari)
+const obj2 = foo.call({x:30})
+// obj2.bar(); // 30
+// obj2.baz(); // 20
+
+let y = obj2.bar
+let z = obj2.baz
+
+console.log(y)
+console.log(z)
+
+y(); // 30
+z(); // undefined
