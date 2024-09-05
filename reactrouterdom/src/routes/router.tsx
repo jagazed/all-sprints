@@ -8,7 +8,6 @@ import {Abibas} from "../components/pages/abibas";
 import {Prices} from "../components/pages/Prices";
 import {Model} from "../components/pages/Model";
 import {ProtectedPage} from "../components/pages/ProtectedPage";
-import {Props, ProtectedRoute} from "./ProtectedRoute";
 import {Login} from "../components/pages/Login";
 
 const PATH = {
