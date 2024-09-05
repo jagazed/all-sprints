@@ -14,7 +14,8 @@ const PATH = {
     PAGE2: '/puma',
     PAGE3: '/abibas',
     PAGE4: '/pricesuppliers',
-    ERROR: '/error404'
+    ERROR: '/error404',
+    PROTECT: '/protectedpage'
 } as const
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <S.NavWrapper><NavLink to={PATH.PAGE2} >Puma</NavLink></S.NavWrapper>
                     <S.NavWrapper><NavLink to={PATH.PAGE3} >Abibas</NavLink></S.NavWrapper>
                     <S.NavWrapper><NavLink to={PATH.PAGE4} >Prices for suppliers</NavLink></S.NavWrapper>
+                    <S.NavWrapper><NavLink to={PATH.PROTECT} >ProtectedPage</NavLink></S.NavWrapper>
                 </div>
                 <div className={styles.content}>
                     <Outlet />
