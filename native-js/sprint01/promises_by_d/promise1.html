@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>promise1</title>
+</head>
+<body>
+
+</body>
+<script>
+    // 1
+    // console.log(1)
+    //let pr = new Promise ((res, rej) => {
+    //     res("oleg")
+    //})
+    // pr
+    // .then (value => value)
+    // .then (value => console.log(value))
+    //console.log(pr.then (value => value) === pr.then (value => value))
+
+    //2
+    // console.log(1)
+    //let pr = new Promise ((res, rej) => {
+    //     res("oleg")
+    //     console.log(2)
+    //})
+    // pr.then(value => console.log(3))
+    // pr.then(value => console.log(4))
+    // console.log(5)
+
+    //3
+    // Promise.all([Promise.resolve(3),Promise.resolve(5)])
+    // .then ((res)=> {
+    //     console.log(res[0])
+    //     console.log(res[1])
+    // })
+
+    //4
+    // let pr = new Promise ((res, rej) => {
+    //     rej("oleg")
+    // })
+    //
+    // pr
+    //     .then(() => console.log(1))
+    //     .catch(() => console.log(2))
+    //     .catch(() => console.log(3))
+    //     .then(() => console.log(4))
+
+    //5
+    // async function yo() {
+    //     return 5
+    // }
+    //
+    // let a = yo()
+    // console.log(a) // promise :5
+
+    //6
+    // async function yo() {
+    //     return "yo"
+    // }
+    //
+    // (async function (){
+    //     let result = await yo()
+    //     console.log(result)
+    // })()
+
+    //7
+    // axios.get("http://nl.com/user/12")
+    //     .then(user => axios.get("http://bsb.by" + user.account))
+    //     .then(money => console.log(money)) // money -> будет тем чем зарезолвится axios.get("http://bsb.by" + user.account)
+
+    //8
+    // let pr = new Promise ((res, rej) => {
+    //         res("oleg")
+    //     })
+    // pr
+    //     .then(res => 1)
+    //     .then(res => Promise.resolve(res + 2))
+    //     .then(res => Promise.resolve(res - 1))
+    //     .then(res => res + 2)
+    //     .then(res => console.log(res))
+
+    //9
+    // let pr = new Promise ((res, rej) => {
+    //         res("oleg")
+    //     })
+    // pr.then((res) => {}, (res) => {}) //res второй который он же rej
+
+    //10
+    // let pr = new Promise((res, rej) => {
+    //     res("Oleg")
+    //     rej("Sasha")
+    // }) // будет только Oleg
+
+    //11
+    let pr = new Promise((res, rej) => {
+        rej("Sasha")
+    });
+    // (async function () {
+    //     let res = await pr()
+    //     console.log(res)
+    // }())
+        (async function () {
+            try {
+                let res = await pr
+                console.log(res)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+</script>
+</html>

@@ -1,149 +1,111 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom/client';
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import axios, { AxiosError } from "axios";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-// TYPES
-type ProductType = {
-    id: string
-    title: string
-    description: string
-    price: number
-}
-
-type FilmType = {
-    id: number
-    nameOriginal: string
-    description: string
-    ratingImdb: number
-}
-
-type ProductsResponseType = {
-    total: number
-    messages: string[]
-    page: number
-    pageCount: number
-    data: ProductType[]
-}
-
-type FilmsResponseType = {
-    total: number
-    messages: string[]
-    page: number
-    pageCount: number
-    data: FilmType[]
-}
-
-type CommonResponseType<T> = {
-    // your code
-    total: number
-    messages: string[]
-    page: number
-    pageCount: number
-    data: T
-
-}
+// Types
+type CommentType = {
+    postId: string;
+    id: string;
+    name: string;
+    email: string;
+    body: string;
+};
 
 // Api
-const instance = axios.create({baseURL: 'https://exams-frontend.kimitsu.it-incubator.io/api/'})
+const instance = axios.create({ baseURL: "https://exams-frontend.kimitsu.it-incubator.io/api/" });
 
-const api = {
-    getProducts() {
-        return instance.get<CommonResponseType<ProductType[]>>('products')
+const commentsAPI = {
+    getComments() {
+        return instance.get<CommentType[]>("comments");
     },
-    getFilms() {
-        return instance.get<CommonResponseType<FilmType[]>>('films')
+};
+
+// Reducer
+const initState = {
+    comments: [] as CommentType[],
+};
+
+type InitStateType = typeof initState;
+
+const appReducer = (state: InitStateType = initState, action: ActionsType) => {
+    switch (action.type) {
+        case "COMMENTS/GET-COMMENTS":
+            return { ...state, comments: action.comments };
+
+        default:
+            return state;
     }
-}
+};
 
+const getCommentsAC = (comments: CommentType[]) =>
+    ({ type: "COMMENTS/GET-COMMENTS", comments }) as const;
+type ActionsType = ReturnType<typeof getCommentsAC>;
 
-// App
-const App = () => {
+// Thunk
+const getCommentsTC = (): AppThunk => (dispatch) => {
+    commentsAPI
+        .getComments()
+        .then((res) => {
+            dispatch(getCommentsAC(res.data));
+        })
+        .catch((e: AxiosError) => {
+            alert(`Сообщение об ошибке: ${e.message}`);
+        });
+};
+
+// Store
+const rootReducer = combineReducers({
+    app: appReducer,
+});
+
+const store = configureStore({ reducer: rootReducer });
+type RootState = ReturnType<typeof store.getState>;
+type AppDispatch = ThunkDispatch<RootState, unknown, ActionsType>;
+type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, ActionsType>;
+const useAppDispatch = () => useDispatch<AppDispatch>();
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+// Components
+export const App = () => {
+    const comments = useAppSelector((state) => state.app.comments);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getCommentsTC());
+    }, []);
+
     return (
         <>
-            <h1>🛒 Products && 🎦 Films</h1>
-            <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                <Products/>
-                <Films/>
-            </div>
+            <h1>📝 Список комментариев</h1>
+            {comments.length ? (
+                comments.map((c) => {
+                    return (
+                        <div key={c.id}>
+                            <b>Comment</b>: {c.body}{" "}
+                        </div>
+                    );
+                })
+            ) : (
+                <h3>❌ Комментарии не подгрузились. Произошла какая-то ошибка. Найди и исправь ее</h3>
+            )}
         </>
-    )
-}
+    );
+};
 
-const Products = () => {
-
-    const [products, setProducts] = useState<ProductType[]>([])
-
-    useEffect(() => {
-        api.getProducts()
-            .then((res) => setProducts(res.data.data))
-    }, [])
-
-    return (
-        <div style={{width: '45%'}}>
-            <h2>🛒 Products</h2>
-            <div>
-                {
-                    products.map(p => {
-                        return (
-                            <div key={p.id}>
-                                <b>{p.title}</b>
-                                <p>{p.description}</p>
-                                <p>💵 {p.price} $</p>
-                            </div>
-                        )
-                    })
-                }</div>
-        </div>
-    )
-}
-
-const Films = () => {
-
-    const [films, setFilms] = useState<FilmType[]>([])
-
-    useEffect(() => {
-        api.getFilms()
-            .then((res) => setFilms(res.data.data))
-    }, [])
-
-    return (
-        <div style={{width: '45%'}}>
-            <h2>🎦 Films</h2>
-            <div>
-                {
-                    films.map(f => {
-                        return (
-                            <div key={f.id}>
-                                <b>{f.nameOriginal}</b>
-                                <p>{f.description}</p>
-                                <p>⭐ {f.ratingImdb} </p>
-                            </div>
-                        )
-                    })
-                }</div>
-        </div>
-    )
-}
-
-
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(<App/>)
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+);
 
 // 📜 Описание:
-// При запуске проекта на экране вы увидите 2 списка: Products и Films.
-// С ними все хорошо, но обратите внимание на типизацию ответов с сервера ProductsResponseType и FilmsResponseType.
-// Дублирование типов на лицо.
-// Ваша задача написать дженериковый тип CommonResponseType и заменить им дублирующие типы.
-// Очередность свойств в типах менять запрещено (по причине что нам будет тяжело перебрать все правильные варианты :) )
-// Параметр тип назовите буквой T
-//
-// В качестве ответа нужно скопировать полностью рабочий дженериковый тип CommonResponseType
-//
-// 🖥 Пример ответа:
-// type CommonResponseType = {
-//   total: T
-//   messages: T[]
-//   page: T
-//   pageCount: T
-//   data: T[]
-// }
+// ❌ Комментарии не подгрузились. Произошла какая-то ошибка.
+// В данном задании вам нужно найти ошибку и починить приложение.
+// Если сделаете все верно, то увидите комментарии.
+// В качестве ответа указать исправленную строку коду
+
+// 🖥 Пример ответа: const store = createStore(rootReducer, applyMiddleware(thunk))
