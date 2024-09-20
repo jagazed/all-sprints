@@ -74,11 +74,12 @@ describe("Game", () => {
                     rowsCount: 1,
                     columnsCount: 2 // x
                 },
-                jumpInterval: 10 // 3 seconds
+                jumpInterval: 100 // 3 seconds
             })
             await game.start()
             let googlePosition  = await game.getGooglePosition()
-            await delay(10)
+
+            await delay(200)
             let googlePosition2  = await game.getGooglePosition()
             expect(googlePosition).not.toBeEqualPosition(googlePosition2)
         }

@@ -63,3 +63,9 @@ export class Game {
         return this.#googlePosition
     }
 }
+
+export const GAME_STATUSES = {
+    PENDING: 'PENDING',
+    IN_PROGRESS: 'IN_PROGRESS',
+    FINISHED: 'FINISHED'
+}
