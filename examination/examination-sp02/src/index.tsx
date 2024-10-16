@@ -2,118 +2,42 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import axios, { AxiosError } from "axios";
-import { configureStore, combineReducers, Dispatch } from "@reduxjs/toolkit";
-
-// TYPES
-type TodoType = {
-    id: string;
-    title: string;
-    order: number;
-    createdAt: string;
-    updatedAt: string;
-    completed: boolean;
-};
-
-type UserType = {
-    id: string;
-    name: string;
-    age: number;
-};
-
-type UsersResponseType = {
-    items: UserType[];
-    totalCount: number;
-};
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 // API
 const instance = axios.create({ baseURL: "https://exams-frontend.kimitsu.it-incubator.io/api/" });
 
 const api = {
-    getTodos() {
-        return instance.get<TodoType[]>("todos");
-    },
-    getUsers() {
-        return instance.get<UsersResponseType>("users");
+    me() {
+        return instance.get("auth/me?delay=3");
     },
 };
 
 // Reducer
 const initState = {
+    isInitialized: false,
     isLoading: false,
-    error: null as string | null,
-    todos: [] as TodoType[],
-    users: [] as UserType[],
+    isLoggedIn: false,
 };
-
 type InitStateType = typeof initState;
 
 const appReducer = (state: InitStateType = initState, action: ActionsType): InitStateType => {
     switch (action.type) {
-        case "APP/GET-TODOS":
-            return { ...state, todos: action.todos };
-        case "APP/GET-USERS":
-            return { ...state, users: action.users };
-        case "APP/IS-LOADING":
+        case "SET_IS_INITIALIZED":
+            return { ...state, isInitialized: action.isInitialized };
+        case "SET_LOADING":
             return { ...state, isLoading: action.isLoading };
-        case "APP/SET-ERROR":
-            return { ...state, error: action.error };
+        case "SET_IS_LOGGED_IN":
+            return { ...state, isLoggedIn: action.isLoggedIn };
         default:
             return state;
     }
 };
 
-const getUsersAC = (users: UserType[]) => ({ type: "APP/GET-USERS", users }) as const;
-const getTodosAC = (todos: TodoType[]) => ({ type: "APP/GET-TODOS", todos }) as const;
-const setLoadingAC = (isLoading: boolean) => ({ type: "APP/IS-LOADING", isLoading }) as const;
-const setError = (error: string | null) => ({ type: "APP/SET-ERROR", error }) as const;
-
-type ActionsType =
-    | ReturnType<typeof getUsersAC>
-    | ReturnType<typeof getTodosAC>
-    | ReturnType<typeof setLoadingAC>
-    | ReturnType<typeof setError>;
-
-// Utils functions
-function baseSuccessHandler<T>(dispatch: Dispatch, actionCreator: Function, data: T) {
-    dispatch(actionCreator(data));
-    dispatch(setLoadingAC(false));
-}
-
-// Thunk
-const getTodosTC = (): AppThunk => (dispatch) => {
-    dispatch(setLoadingAC(true));
-    api
-        .getTodos()
-        .then((res) => {
-            // ❗❗❗ XXX ❗❗❗
-            baseSuccessHandler(dispatch, getTodosAC, res.data)
-
-        })
-        .catch((e: AxiosError) => {
-            dispatch(setError(e.message));
-            dispatch(setLoadingAC(false));
-        });
-};
-
-const getUsersTC = (): AppThunk => (dispatch) => {
-    dispatch(setLoadingAC(true));
-    api
-        .getUsers()
-        .then((res) => {
-            // ❗❗❗ YYY ❗❗❗
-            baseSuccessHandler(dispatch, getUsersAC, res.data.items)
-        })
-        .catch((e: AxiosError) => {
-            dispatch(setError(e.message));
-            dispatch(setLoadingAC(false));
-        });
-};
-
 // Store
-const rootReducer = combineReducers({
-    app: appReducer,
-});
+const rootReducer = combineReducers({ app: appReducer });
 
 const store = configureStore({ reducer: rootReducer });
 type RootState = ReturnType<typeof store.getState>;
@@ -122,93 +46,88 @@ type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, A
 const useAppDispatch = () => useDispatch<AppDispatch>();
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-// COMPONENTS
-// Loader
-export const Loader = () => {
-    return <h1>Loading ...</h1>;
+const setIsInitialized = (isInitialized: boolean) =>
+    ({ type: "SET_IS_INITIALIZED", isInitialized }) as const;
+const setLoading = (isLoading: boolean) => ({ type: "SET_LOADING", isLoading }) as const;
+const setIsLoggedIn = (isLoggedIn: boolean) => ({ type: "SET_IS_LOGGED_IN", isLoggedIn }) as const;
+type ActionsType =
+    | ReturnType<typeof setLoading>
+    | ReturnType<typeof setIsInitialized>
+    | ReturnType<typeof setIsLoggedIn>;
+
+// Thunk
+const me = (): AppThunk => async (dispatch) => {
+    dispatch(setLoading(true));
+    api
+        .me()
+        .then((res) => {
+            dispatch(setIsLoggedIn(true));
+        })
+        .finally(() => {
+            dispatch(setLoading(false));
+            dispatch(setIsInitialized(true));
+        });
 };
 
-const App = () => {
-    return (
-        <>
-            <h1>✅Todos & 🙂Users</h1>
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-                <Todos />
-                <Users />
-            </div>
-        </>
-    );
-};
+// Components
+const Loader = () => <h2>🔘 Крутилка...</h2>;
 
-const Todos = () => {
-    const dispatch = useAppDispatch();
-    const todos = useAppSelector((state) => state.app.todos);
-    const error = useAppSelector((state) => state.app.error);
+const Login = () => {
+    const isInitialized = useAppSelector((state) => state.app.isInitialized);
     const isLoading = useAppSelector((state) => state.app.isLoading);
+    const isLoggedIn = useAppSelector((state) => state.app.isLoggedIn);
+
+    if (isLoggedIn) {
+        return <Navigate to={"/"} />;
+    }
+
+    return <h2>🐣 Login</h2>;
+};
+const Profile = () => {
+    const isInitialized = useAppSelector((state) => state.app.isInitialized);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
+    const isLoggedIn = useAppSelector((state) => state.app.isLoggedIn);
+
+    if (!isLoggedIn) {
+        return <Navigate to={"/login"} />;
+    }
+
+    return <h2>😎 Profile </h2>;
+};
+
+export const App = () => {
+    const isInitialized = useAppSelector((state) => state.app.isInitialized);
+    const isLoading = useAppSelector((state) => state.app.isLoading);
+    const isLoggedIn = useAppSelector((state) => state.app.isLoggedIn);
+
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getTodosTC());
+        dispatch(me());
     }, []);
 
     return (
-        <div>
-            <h2>✅ Список тудулистов</h2>
-            {!!error && <h2 style={{ color: "red" }}>{error}</h2>}
-            {isLoading && <Loader />}
-            {todos.map((t) => {
-                return (
-                    <div style={t.completed ? { color: "grey" } : {}} key={t.id}>
-                        <input type="checkbox" checked={t.completed} />
-                        <b>Описание</b>: {t.title}
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
-
-const Users = () => {
-    const dispatch = useAppDispatch();
-    const users = useAppSelector((state) => state.app.users);
-    const error = useAppSelector((state) => state.app.error);
-    const isLoading = useAppSelector((state) => state.app.isLoading);
-
-    useEffect(() => {
-        dispatch(getUsersTC());
-    }, []);
-
-    return (
-        <div>
-            <h2>🙂 Список юзеров</h2>
-            {!!error && <h2 style={{ color: "red" }}>{error}</h2>}
-            {isLoading && <Loader />}
-            <div>
-                {users.map((u) => {
-                    return (
-                        <div key={u.id}>
-                            <b>name</b>:{u.name} - <b>age</b>:{u.age}
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
+        <Routes>
+            <Route path={"/"} element={<Profile />} />
+            <Route path={"login"} element={<Login />} />
+        </Routes>
     );
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+    <BrowserRouter>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </BrowserRouter>,
 );
 
 // 📜 Описание:
-// Перед вами список тудулистов и пользователей, которые находятся в постоянной загрузке.
-// Откройте network и вы увидите что запросы на сервер уходят и возвращаются с хорошими данными,
-// но вместо этого пользователь видит на экране Loader.
-// Для обработки успешного результата написана утилитная функция baseSuccessHandler.
-// Ваша задача воспользоваться этой функцией отобразить Todos и Users
-// Что нужно написать вместо XXX и YYY, чтобы реализовать данную задачу?
-// Ответ дайте через пробел.
+// После старта / обновления приложения мы видим Login, а потом через 3 секунды Profile
+// Но это плохое поведение.
+// Ваша задача написать код при котором пользователя не будет редиректить на Login,
+// пока приложение не проинициализировано,
+// а во время ожидания ответа с сервера он будет видеть Loader
 
-// 🖥 Пример ответа: dispatch(baseSuccessHandler(1,2,3))  dispatch(baseSuccessHandler(3,2,1)
+// 🖥 Пример ответа: <Loader/>

@@ -3,7 +3,7 @@ import styles from "./components/Site.module.css";
 import {Adidas} from "./components/pages/adidas";
 import {Puma} from "./components/pages/puma";
 import {Abibas} from "./components/pages/abibas";
-import {Navigate, NavLink, Outlet, Route, Routes} from 'react-router-dom';
+import {Link, Navigate, NavLink, Outlet, Route, Routes, useNavigate} from 'react-router-dom';
 import {Error404} from "./components/pages/Error404";
 import {S} from "./components/pages/_styles"
 import {Model} from "./components/pages/Model";
@@ -18,6 +18,10 @@ const PATH = {
     PROTECT: '/protectedpage'
 } as const
 function App() {
+    const navigate = useNavigate()
+    const navigateHandler = () => {
+        navigate(-1)
+    }
     return (
         <div>
             <div className={styles.header}><h1>HEADER</h1></div>
@@ -30,6 +34,10 @@ function App() {
                     <S.NavWrapper><NavLink to={PATH.PROTECT} >ProtectedPage</NavLink></S.NavWrapper>
                 </div>
                 <div className={styles.content}>
+                    <div className={styles.HorizontalNavigation}>
+                        <Link className={styles.LinkLikeButton} to="/adidas" >главная страница</Link>
+                        <button className={styles.ButtonLikeLink}  onClick={navigateHandler} >назад</button>
+                    </div>
                     <Outlet />
                     {/*<Routes>*/}
                     {/*    <Route path="/" element={<Navigate to={PATH.PAGE1} />} />*/}

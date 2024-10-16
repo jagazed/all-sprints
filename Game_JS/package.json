@@ -2,7 +2,7 @@
   "name": "game-the-catch",
   "version": "1.0.0",
   "description": "game",
-  "main": "index.js",
+  "main": "counterMVC/index.js",
   "scripts": {
     "test": "jest"
   },
@@ -15,7 +15,9 @@
   "dependencies": {
     "@babel/preset-env": "^7.25.4",
     "babel-jest": "^29.7.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "websocket": "^1.0.35",
+    "ws": "^8.18.0"
   },
   "jest": {
     "transform": {

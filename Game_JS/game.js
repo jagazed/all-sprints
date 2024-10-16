@@ -118,6 +118,11 @@ export class Game {
         return this.#status
     }
 
+    // new
+    async getSettings() {
+        return this.#settings
+    }
+    // ---
     async getGooglePosition() {
         return this.#googlePosition
     }

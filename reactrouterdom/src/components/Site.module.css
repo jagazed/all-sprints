@@ -44,3 +44,35 @@
     text-decoration: underline;
     color: #7fb8f1;
 }
+
+.LinkLikeButton {
+    height: 54px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.LinkLikeButton:hover {
+    background-color: #0056b3;
+}
+.ButtonLikeLink {
+    margin-left: 5px;
+    height: 55px;
+    background-color: #ff00b7;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 30px;
+}
+.ButtonLikeLink:hover {
+    background-color: #980569;
+}
+.HorizontalNavigation {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+}
