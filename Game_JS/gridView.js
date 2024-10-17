@@ -2,6 +2,7 @@ export class GridView {
     render(viewModel) {
         const gridSize = viewModel.settings.gridSize
         const googlePosition = viewModel.googlePosition
+        const player1Position = viewModel.player1Position
 
         const gridElement = document.createElement('table')
             for (let y = 0; y < gridSize.columnsCount; y++) {
@@ -13,6 +14,10 @@ export class GridView {
                         cellElement.append(document.createTextNode('Google'))
                     }
                     //cellElement.append(x + ',' + y)
+                    rowElement.append(cellElement)
+                    if (player1Position.x === x && player1Position.y === y) {
+                        cellElement.append(document.createTextNode('Player1'))
+                    }
                     rowElement.append(cellElement)
                 }
                 gridElement.append(rowElement)

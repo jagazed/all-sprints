@@ -89,6 +89,7 @@ export class Game {
         )
 
         this.#player1Position = newPosition
+        this.#eventEmitter.emit()
     }
 
     //мой код
@@ -199,6 +200,8 @@ export class Game {
 
         this.#player1Position = newPosition;
 
+        this.#eventEmitter.emit()
+
         this.#checkGameEnd()
     }
 
@@ -267,6 +270,7 @@ export class Game {
 
     #checkGoogleCatching() {
         if (this.#player1Position && this.#googlePosition && this.#player1Position.isEqual(this.#googlePosition)) {
+            console.log("checkGoogleCatching player1")
             return "Player 1"
         }
         if (this.#player2Position && this.#googlePosition && this.#player2Position.isEqual(this.#googlePosition)) {
@@ -279,6 +283,8 @@ export class Game {
         if (this.#player1Score >= this.#settings.winScore || this.#player2Score >= this.#settings.winScore || this.#googleScore >= this.#settings.winScore) {
             this.#status = GAME_STATUSES.FINISHED;
             clearInterval(this.#runGoogleJumpInterval);
+            console.log("player 1: ", this.#player1Score)
+            console.log("google: ", this.#googleScore)
         }
     }
 }

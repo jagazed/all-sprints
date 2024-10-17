@@ -15,8 +15,8 @@ await game.setSettings({
         rowsCount: 4,
         columnsCount: 4
     },
-    jumpInterval: 1000,
-    winScore: 20
+    jumpInterval: 3000,
+    winScore: 5
 })
 const view = new View('app')
 
