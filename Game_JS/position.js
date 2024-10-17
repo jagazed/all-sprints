@@ -35,7 +35,7 @@ export class Position {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        Object.freeze(this)
+        //Object.freeze(this)
     }
 
     isEqual(otherPosition) {

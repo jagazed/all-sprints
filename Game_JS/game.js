@@ -19,12 +19,14 @@ export class Game {
     #player1Score = 0;
     #player2Score = 0;
     #googleScore = 0;
+    #googleJumpInterval
 
 
     // dependency injection
     constructor(numberUtility, eventEmitter) {
         this.#numberUtility = numberUtility
         this.#eventEmitter = eventEmitter
+        this.#googleJumpInterval = null
         //this.#google = new Google(new Position());
         //this.#google.jump()
     }
@@ -62,20 +64,15 @@ export class Game {
         }
 
         this.#googlePosition = newPosition
-        this.#eventEmitter.emit()
 
         const catcher = this.#checkGoogleCatching()
-        if (catcher) {
-            if (catcher === "Player 1") {
-                this.#player1Score++
-            } else if (catcher === "Player 2") {
-                this.#player2Score++
-            }
-        } else {
+        if (catcher === "Google") {
+            //console.log("googleScore", this.#googleScore)
             this.#googleScore++
         }
 
-        this.#checkGameEnd()
+        this.#eventEmitter.emit()
+        await this.#checkGameEnd()
     }
 
     async #initPlayer1Position() {
@@ -107,7 +104,7 @@ export class Game {
     }
 
     async #runGoogleJumpInterval() {
-        setInterval(async () => {
+        this.#googleJumpInterval = setInterval(async () => {
             await this.#jumpGoogle();
         }, this.#settings.jumpInterval)
     }
@@ -193,16 +190,17 @@ export class Game {
             return;
         }
 
+        this.#player1Position = newPosition;
+
         const catcher = this.#checkGoogleCatching()
         if (catcher === "Player 1") {
+            console.log("player 1 catcher his score:", this.#player1Score)
             this.#player1Score++
         }
 
-        this.#player1Position = newPosition;
-
         this.#eventEmitter.emit()
 
-        this.#checkGameEnd()
+        await this.#checkGameEnd()
     }
 
     //мой код
@@ -253,7 +251,7 @@ export class Game {
 
         this.#player2Position = newPosition;
 
-        this.#checkGameEnd()
+        await this.#checkGameEnd()
     }
 
 
@@ -272,18 +270,23 @@ export class Game {
         if (this.#player1Position && this.#googlePosition && this.#player1Position.isEqual(this.#googlePosition)) {
             console.log("checkGoogleCatching player1")
             return "Player 1"
-        }
-        if (this.#player2Position && this.#googlePosition && this.#player2Position.isEqual(this.#googlePosition)) {
+        } else if (this.#player2Position && this.#googlePosition && this.#player2Position.isEqual(this.#googlePosition)) {
             return "Player 2"
+        } else {
+            console.log("google check")
+            return "Google"
         }
-        return null
     }
 
-    #checkGameEnd() {
+    async #checkGameEnd() {
         if (this.#player1Score >= this.#settings.winScore || this.#player2Score >= this.#settings.winScore || this.#googleScore >= this.#settings.winScore) {
             this.#status = GAME_STATUSES.FINISHED;
-            clearInterval(this.#runGoogleJumpInterval);
+            //clearInterval(this.#runGoogleJumpInterval);
+            clearInterval(this.#googleJumpInterval)
+            this.#eventEmitter.emit()
+
             console.log("player 1: ", this.#player1Score)
+            console.log("player 2: ", this.#player2Score)
             console.log("google: ", this.#googleScore)
         }
     }
