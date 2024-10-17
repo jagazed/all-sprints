@@ -4,21 +4,26 @@ import {GAME_STATUSES} from "./game.js";
 export class View {
     #rootElement
     #gridView
+    #controller
 
-    #onStartHandler
 
     constructor(elementId) {
         this.#rootElement = document.getElementById(elementId)
         this.#gridView = new GridView()
     }
 
-    render(viewModel) {
+    set controller (controller) {
+        this.#controller = controller
+    }
+
+    async render() {
+        const viewModel = await this.#controller.getViewModel()
         this.#rootElement.innerHTML = ''
         this.#rootElement.append(this.renderStartButton())
         this.#rootElement.append(this.renderStatus(viewModel.status))
 
         if (viewModel.status === GAME_STATUSES.IN_PROGRESS) {
-            this.#rootElement.append(this.#gridView.render(viewModel.settings))
+            this.#rootElement.append(this.#gridView.render(viewModel))
         }
 
     }
@@ -26,14 +31,11 @@ export class View {
         const buttonElement = document.createElement('button')
         buttonElement.append('Start')
         buttonElement.addEventListener("click", async () => {
-            await this.#onStartHandler()
+            await this.#controller.startGame()
         })
         return buttonElement
     }
 
-    set onStart(callback) {
-        this.#onStartHandler = callback
-    }
 
     renderStatus(status) {
         const statusElement = document.createElement('div')

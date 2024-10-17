@@ -1,12 +1,18 @@
 export class GridView {
-    render(settings) {
-        const gridElement = document.createElement('table')
+    render(viewModel) {
+        const gridSize = viewModel.settings.gridSize
+        const googlePosition = viewModel.googlePosition
 
-            for (let y = 0; y < settings.gridSize.columnsCount; y++) {
+        const gridElement = document.createElement('table')
+            for (let y = 0; y < gridSize.columnsCount; y++) {
                 const rowElement = document.createElement('tr')
-                for (let x = 0; x < settings.gridSize.rowsCount; x++) {
+                for (let x = 0; x < gridSize.rowsCount; x++) {
                     const cellElement = document.createElement('td')
-                    cellElement.append(x + ',' + y)
+
+                    if (googlePosition.x === x && googlePosition.y === y) {
+                        cellElement.append(document.createTextNode('Google'))
+                    }
+                    //cellElement.append(x + ',' + y)
                     rowElement.append(cellElement)
                 }
                 gridElement.append(rowElement)

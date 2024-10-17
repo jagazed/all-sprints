@@ -12,6 +12,7 @@ export class Game {
     }
 
     #numberUtility;
+    #eventEmitter;
     #googlePosition;
     #player1Position;
     #player2Position;
@@ -21,10 +22,15 @@ export class Game {
 
 
     // dependency injection
-    constructor(numberUtility) {
+    constructor(numberUtility, eventEmitter) {
         this.#numberUtility = numberUtility
+        this.#eventEmitter = eventEmitter
         //this.#google = new Google(new Position());
         //this.#google.jump()
+    }
+
+    async subscribe(callback) {
+        this.#eventEmitter.on(callback)
     }
 
     async setSettings(settings) {
@@ -52,10 +58,11 @@ export class Game {
         // мой код
         if ((!!this.#googlePosition && newPosition.isEqual(this.#googlePosition))
             || newPosition.isEqual(this.#player1Position) || newPosition.isEqual(this.#player2Position)) {
-            return this.#jumpGoogle();
+            return await this.#jumpGoogle();
         }
 
         this.#googlePosition = newPosition
+        this.#eventEmitter.emit()
 
         const catcher = this.#checkGoogleCatching()
         if (catcher) {
@@ -106,11 +113,16 @@ export class Game {
 
     async start() {
         // "Принцип единого уровня абстракции" (Single Level of Abstraction Principle, SLAP).
-        this.#status = GAME_STATUSES.IN_PROGRESS
+        this.#status = GAME_STATUSES.IN_PROGRESS;
         await this.#initPlayer1Position();
         await this.#initPlayer2Position();
         await this.#jumpGoogle();
         await this.#runGoogleJumpInterval();
+    }
+
+    async stop() {
+        this.#status = GAME_STATUSES.PENDING
+        clearInterval(this.#runGoogleJumpInterval)
     }
 
     // getter
