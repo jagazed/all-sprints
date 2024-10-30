@@ -13,7 +13,7 @@ export class Controller {
         this.#model = model
         this.#view.controller = this
 
-        this.#model.subscribe(async () =>{
+        this.#model.subscribe(async () => {
             await this.#view.render()
         })
 
@@ -25,11 +25,20 @@ export class Controller {
         const settings = await this.#model.getSettings()
         const googlePosition = await this.#model.getGooglePosition()
         const player1Position = await this.#model.getPlayer1Position()
+        const player2Position = await this.#model.getPlayer2Position()
+        const player1Score = await this.#model.getPlayer1Score()
+        const player2Score = await this.#model.getPlayer2Score()
+        const googleScore = await this.#model.getGoogleScore()
+
         return {
             status: status,
             settings: settings,
             googlePosition: {...googlePosition},
             player1Position: {...player1Position},
+            player2Position: {...player2Position},
+            player1Score,
+            player2Score,
+            googleScore
         }
     }
 
@@ -58,14 +67,33 @@ export class Controller {
             case 'ArrowRight':
                 direction = MOVE_DIRECTIONS.RIGHT
                 break
+            case 'w':
+                direction = MOVE_DIRECTIONS.UP
+                break
+            case 's':
+                direction = MOVE_DIRECTIONS.DOWN
+                break
+            case 'a':
+                direction = MOVE_DIRECTIONS.LEFT
+                break
+            case 'd':
+                direction = MOVE_DIRECTIONS.RIGHT
+                break
             default:
                 return
         }
 
-        await this.movePlayer1(direction)
-    }
+        if (event.key === 'w' || event.key === 's' || event.key === 'a' || event.key === 'd') {
+            await this.movePlayer2(direction)
+        } else {
+            await this.movePlayer1(direction)
+        }
 
+    }
     async movePlayer1(direction) {
         await this.#model.movePlayer1(direction)
+    }
+    async movePlayer2(direction) {
+        await this.#model.movePlayer2(direction)
     }
 }

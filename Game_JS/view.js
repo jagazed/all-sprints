@@ -22,11 +22,21 @@ export class View {
         this.#rootElement.append(this.renderStartButton())
         this.#rootElement.append(this.renderStatus(viewModel.status))
 
+        //new
+        this.#rootElement.append(this.renderScores(viewModel.player1Score, viewModel.player2Score, viewModel.googleScore))
+        //
         if (viewModel.status === GAME_STATUSES.IN_PROGRESS) {
             this.#rootElement.append(this.#gridView.render(viewModel))
         }
 
     }
+    //new
+    renderScores(player1Score, player2Score, googleScore) {
+        const scoresElement = document.createElement('div')
+        scoresElement.append(`Player 1: ${player1Score} | Player 2: ${player2Score} | Google: ${googleScore}`)
+        return scoresElement
+    }
+    //
     renderStartButton() {
         const buttonElement = document.createElement('button')
         buttonElement.append('Start')
