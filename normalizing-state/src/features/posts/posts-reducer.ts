@@ -1,11 +1,13 @@
 import {api, PostApiType} from "../../api/api";
 import {Dispatch} from "redux";
+import {deletePostCommentsSuccess, fetchPostCommentsSuccess} from "./comments-reducer";
 
 export type PostType = {
     id: number
     text: string
     likes: number
     authorId: number
+    commentsIds: number[]
 }
 
 const initialState ={
@@ -26,7 +28,9 @@ export const mapToLookupTable = <T extends {id: number}>(items: T[]): LookupTabl
 
 export const postsReducer = (state = initialState, action:
     | ReturnType<typeof fetchPostsSuccess>
-    | ReturnType<typeof updatePostSuccess>) => {
+    | ReturnType<typeof updatePostSuccess>
+    | ReturnType<typeof fetchPostCommentsSuccess>
+    | ReturnType<typeof deletePostCommentsSuccess>) => {
     switch (action.type) {
         case 'posts/fetchPostsSuccess': {
             return {
@@ -38,11 +42,21 @@ export const postsReducer = (state = initialState, action:
                         id: p.id,
                         likes: p.likes,
                         text: p.text,
-                        authorId: p.author.id
+                        authorId: p.author.id,
+                        commentsIds: p.lastComments.map(c => c.id)
                     }
                     return copy
                 }))
             }
+        }
+        case "posts/fetchPostCommentsSuccess": {
+            return  {...state, byId: {
+                    ...state.byId,
+                    [action.payload.postId]: {
+                        ...state.byId[action.payload.postId],
+                        commentsIds: action.payload.comments.map(c => c.id)
+                    }
+                }}
         }
         case "posts/updatePostSuccess": {
             return {
@@ -54,6 +68,15 @@ export const postsReducer = (state = initialState, action:
                 //items: state.items.map(i => i.id === action.payload.postId ? {...i, text: action.payload.text}: i)
             }
         }
+        case "posts/deletePostCommentsSuccess":
+            let post = state.byId[action.payload.postId];
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [action.payload.postId]: {...post, commentsIds: post.commentsIds.filter(id => id !== action.payload.commentId)}
+                }
+            }
     }
     return state
 }
@@ -64,12 +87,6 @@ export const fetchPostsSuccess = (posts: PostApiType[]) => ({type: 'posts/fetchP
 export const fetchPosts = () => async (dispatch: Dispatch) => {
     const posts = await api.getPost()
     dispatch(fetchPostsSuccess(posts))
-    // try {
-    //     const posts = await api.getPost();
-    //     dispatch(fetchPostsSuccess(posts));
-    // } catch (error) {
-    //     console.error('Error fetching posts:', error);
-    // }
 }
 
 export const updatePost = (postId: number, text: string) => async (dispatch: Dispatch) => {
