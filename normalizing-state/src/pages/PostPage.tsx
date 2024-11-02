@@ -2,10 +2,10 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Post} from "../features/posts/components/Post";
 import {AppStateType} from "../features/app/store";
-import {fetchPosts} from "../features/posts/reducer";
+import {fetchPosts} from "../features/posts/posts-reducer";
 
-export const PostPage: React.FC = () => {
-    const items = useSelector((state: AppStateType) => state.posts.items)
+export const PostPage: React.FC = (props) => {
+    const items = useSelector((state: AppStateType) => state.posts.allIds)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -13,6 +13,6 @@ export const PostPage: React.FC = () => {
     }, []);
 
     return (<div>
-        {items.map(i => <Post key={i.id} post={i} />)}
+        {items.map(id => <Post key={id} postId={id} />)}
 </div>)
 }

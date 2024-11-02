@@ -1,19 +1,24 @@
 import React, {useState} from "react";
-import {PostType} from "../../../api/api";
-import {useDispatch} from "react-redux";
-import {updatePost} from "../reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {updatePost} from "../posts-reducer";
+import {AppStateType} from "../../app/store";
 
-export const Post: React.FC<{post: PostType}> = ({post}) => {
+export const Post: React.FC<{postId: number}> = ({postId}) => {
+    const post = useSelector((state: AppStateType) => state.posts.byId[postId])
+    const author = useSelector((state: AppStateType) => state.authors.byId[post.authorId])
+
+    console.log(post)
     const [editMode, setEditMode] = useState(false)
     const [text, setText] = useState(post.text)
     const dispatch = useDispatch()
 
 
     return (<div>
-        <b>{post.author.name}</b>
+        <b>{author.name}</b>
         <br />
         {!editMode && <span onDoubleClick={()=> setEditMode(true)}>{post.text}</span>}
         {editMode && <textarea
+            value={text}
             onBlur={() => {
                 dispatch(updatePost(post.id, text))
                 setEditMode(false)
