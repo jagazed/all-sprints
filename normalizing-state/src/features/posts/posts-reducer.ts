@@ -30,7 +30,8 @@ export const postsReducer = (state = initialState, action:
     | ReturnType<typeof fetchPostsSuccess>
     | ReturnType<typeof updatePostSuccess>
     | ReturnType<typeof fetchPostCommentsSuccess>
-    | ReturnType<typeof deletePostCommentsSuccess>) => {
+    | ReturnType<typeof deletePostCommentsSuccess>
+    | ReturnType<typeof deletePostSuccess>) => {
     switch (action.type) {
         case 'posts/fetchPostsSuccess': {
             return {
@@ -68,7 +69,7 @@ export const postsReducer = (state = initialState, action:
                 //items: state.items.map(i => i.id === action.payload.postId ? {...i, text: action.payload.text}: i)
             }
         }
-        case "posts/deletePostCommentsSuccess":
+        case "posts/deletePostCommentsSuccess": {
             let post = state.byId[action.payload.postId];
             return {
                 ...state,
@@ -77,12 +78,42 @@ export const postsReducer = (state = initialState, action:
                     [action.payload.postId]: {...post, commentsIds: post.commentsIds.filter(id => id !== action.payload.commentId)}
                 }
             }
+        }
+        case "posts/deletePostSuccess": {
+            // let post = state.byId[action.payload.postId];
+            // return {
+            //     ...state,
+            //     byId: {
+            //         ...state.byId,
+            //         [action.payload.postId]: {...post, commentsIds: post.commentsIds.filter(id => id !== action.payload.commentId)}
+            //     }
+            // }
+
+
+            // let post = state.byId[action.payload.postId]
+            // return {
+            //     ...state,
+            //     byId: {
+            //         ...state.byId,
+            //         [action.payload.postId]: {...post, id: post.}
+            //     }
+            // }
+            const byIdCopy = {
+                ...state.byId
+            }
+            delete byIdCopy[action.payload.postId]
+            return {
+                ...state,
+                byId: byIdCopy
+            }
+        }
     }
     return state
 }
 
 export const updatePostSuccess = (postId: number, text: string) => ({type: 'posts/updatePostSuccess', payload: {postId, text}} as const)
 export const fetchPostsSuccess = (posts: PostApiType[]) => ({type: 'posts/fetchPostsSuccess', payload: {posts}} as const)
+export const deletePostSuccess = (postId: number) => ({type: 'posts/deletePostSuccess', payload: {postId}} as const)
 
 export const fetchPosts = () => async (dispatch: Dispatch) => {
     const posts = await api.getPost()
@@ -92,4 +123,10 @@ export const fetchPosts = () => async (dispatch: Dispatch) => {
 export const updatePost = (postId: number, text: string) => async (dispatch: Dispatch) => {
     const result = await api.updatePost(postId, text)
     dispatch(updatePostSuccess(postId, text))
+}
+
+export const deletePost = (postId: number) => async (dispatch: Dispatch) => {
+    const result = await api.deletePost(postId)
+    console.log("deletePost in posts reducer")
+    dispatch(deletePostSuccess(postId))
 }

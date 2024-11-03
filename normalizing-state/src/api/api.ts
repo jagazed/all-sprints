@@ -80,4 +80,7 @@ export const api = {
     updateAuthorName(authorId: number, text: string) {
         return Promise.resolve({})
     },
+    deletePost(postId: number) {
+        return Promise.resolve({})
+    }
 }

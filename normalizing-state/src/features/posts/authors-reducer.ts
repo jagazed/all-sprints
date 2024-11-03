@@ -1,5 +1,5 @@
 import {api, AuthorApiType} from "../../api/api";
-import {fetchPostsSuccess, mapToLookupTable} from "./posts-reducer";
+import {deletePostSuccess, fetchPostsSuccess, mapToLookupTable} from "./posts-reducer";
 import {fetchPostCommentsSuccess} from "./comments-reducer";
 import {Dispatch} from "redux";
 
@@ -14,7 +14,8 @@ type StateType = typeof initialState
 export const authorsReducer = (state = initialState, action:
     | ReturnType<typeof fetchPostsSuccess>
     | ReturnType<typeof fetchPostCommentsSuccess>
-    | ReturnType<typeof updateAuthorNameSuccess>): StateType => {
+    | ReturnType<typeof updateAuthorNameSuccess>
+    | ReturnType<typeof deletePostSuccess>): StateType => {
     switch (action.type) {
         case 'posts/fetchPostsSuccess': {
             return {
@@ -44,10 +45,32 @@ export const authorsReducer = (state = initialState, action:
                     ...state.byId,
                     [action.payload.authorId]: {...state.byId[action.payload.authorId], name: action.payload.name}
                 }
-                // ...state,
-                // byId: {
-                //     ...state.byId,
-                //     [action.payload.postId]: {...state.byId[action.payload.postId], text: action.payload.text}
+            }
+        }
+        case "posts/deletePostSuccess": {
+            // let post = state.byId[action.payload.postId];
+            // return {
+            //     ...state,
+            //     byId: {
+            //         ...state.byId,
+            //         [action.payload.postId]: {...post, commentsIds: post.commentsIds.filter(id => id !== action.payload.commentId)}
+            //     }
+            // }
+            // let post = state.byId[action.payload.postId];
+            // return {
+            //     ...state,
+            //     byId: {
+            //         ...state.byId,
+            //         [action.payload.postId]: {...post, authorId.filter(id => id !== action.payload.authorId)}
+            //     }
+            // }
+            const byIdCopy = {
+                ...state.byId
+            }
+            delete byIdCopy[action.payload.postId]
+            return {
+                ...state,
+                byId: byIdCopy
             }
         }
     }
