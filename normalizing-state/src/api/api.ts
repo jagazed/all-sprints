@@ -76,5 +76,8 @@ export const api = {
     },
     deleteComment(postId: number, commentId: number) {
         return Promise.resolve({})
-    }
+    },
+    updateAuthorName(authorId: number, text: string) {
+        return Promise.resolve({})
+    },
 }

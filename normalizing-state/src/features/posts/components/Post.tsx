@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {updatePost} from "../posts-reducer";
 import {AppStateType} from "../../app/store";
 import {deletePostComment, fetchPostsComments} from "../comments-reducer";
+import {updateAuthorName} from "../authors-reducer";
 
 export const Post: React.FC<{postId: number}> = ({postId}) => {
     const post = useSelector((state: AppStateType) => state.posts.byId[postId])
@@ -10,12 +11,23 @@ export const Post: React.FC<{postId: number}> = ({postId}) => {
 
     console.log(post)
     const [editMode, setEditMode] = useState(false)
+    const [editModeAuthor, setEditModeAuthor] = useState(false)
     const [text, setText] = useState(post.text)
+    const [authorText, setAuthorText] = useState(author.name)
     const dispatch = useDispatch()
 
 
     return (<div>
-        <b>{author.name}</b>
+        {/*<b>{author.name}</b>*/}
+        {!editModeAuthor && <b onClick={()=> setEditModeAuthor(true)}>{author.name}</b> }
+        {editModeAuthor && <textarea
+                value={authorText}
+                onBlur={() => {
+                    dispatch(updateAuthorName(author.id, authorText))
+                    setEditModeAuthor(false)
+                }}
+                onChange={(e) => {setAuthorText(e.currentTarget.value)}}>{authorText}</textarea>
+                }
         <br />
         {!editMode && <span onDoubleClick={()=> setEditMode(true)}>{post.text}</span>}
         {editMode && <textarea

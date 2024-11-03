@@ -1,6 +1,7 @@
-import {AuthorApiType} from "../../api/api";
+import {api, AuthorApiType} from "../../api/api";
 import {fetchPostsSuccess, mapToLookupTable} from "./posts-reducer";
 import {fetchPostCommentsSuccess} from "./comments-reducer";
+import {Dispatch} from "redux";
 
 const initialState ={
     //items: [] as PostType[],
@@ -12,7 +13,8 @@ type StateType = typeof initialState
 
 export const authorsReducer = (state = initialState, action:
     | ReturnType<typeof fetchPostsSuccess>
-    | ReturnType<typeof fetchPostCommentsSuccess>): StateType => {
+    | ReturnType<typeof fetchPostCommentsSuccess>
+    | ReturnType<typeof updateAuthorNameSuccess>): StateType => {
     switch (action.type) {
         case 'posts/fetchPostsSuccess': {
             return {
@@ -35,16 +37,27 @@ export const authorsReducer = (state = initialState, action:
                 }
             }
         }
-        // case "posts/updatePostSuccess": {
-        //     return {
-        //         ...state,
-        //         byId: {
-        //             ...state.byId,
-        //             [action.payload.postId]: {...state.byId[action.payload.postId], text: action.payload.text}
-        //         }
-        //         //items: state.items.map(i => i.id === action.payload.postId ? {...i, text: action.payload.text}: i)
-        //     }
-        // }
+        case "posts/updateAuthorNameSuccess": {
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [action.payload.authorId]: {...state.byId[action.payload.authorId], name: action.payload.name}
+                }
+                // ...state,
+                // byId: {
+                //     ...state.byId,
+                //     [action.payload.postId]: {...state.byId[action.payload.postId], text: action.payload.text}
+            }
+        }
     }
     return state
+}
+
+export const updateAuthorNameSuccess = (authorId: number, name: string) => ({type: 'posts/updateAuthorNameSuccess', payload: {authorId, name}} as const)
+
+export const updateAuthorName = (authorId: number, name: string) => async (dispatch: Dispatch) => {
+    console.log("updateAuthorName use")
+    const result = await api.updateAuthorName(authorId, name)
+    dispatch(updateAuthorNameSuccess(authorId, name))
 }
