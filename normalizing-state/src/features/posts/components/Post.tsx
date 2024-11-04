@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, updatePost} from "../posts-reducer";
-import {AppStateType} from "../../app/store";
+import {AppStateType, useAppDispatch} from "../../app/store";
 import {deletePostComment, fetchPostsComments} from "../comments-reducer";
 import {updateAuthorName} from "../authors-reducer";
 
@@ -14,7 +14,7 @@ export const Post: React.FC<{postId: number}> = ({postId}) => {
     const [editModeAuthor, setEditModeAuthor] = useState(false)
     const [text, setText] = useState(post.text)
     const [authorText, setAuthorText] = useState(author.name)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
 
     return (<div>
@@ -56,7 +56,7 @@ export const Post: React.FC<{postId: number}> = ({postId}) => {
 const Comment: React.FC<{id: number, postId: number}> = ({id, postId}) => {
     const comment = useSelector((state: AppStateType) => state.comments.byId[id])
     const author = useSelector((state: AppStateType) => state.authors.byId[comment.authorId])
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     return <li><b>{author.name}</b>{comment.text} <button onClick={()=> {dispatch(deletePostComment(postId, id))
         console.log("comment delete")}}>x</button></li>
 }

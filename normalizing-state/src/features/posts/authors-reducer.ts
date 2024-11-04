@@ -64,14 +64,7 @@ export const authorsReducer = (state = initialState, action:
             //         [action.payload.postId]: {...post, authorId.filter(id => id !== action.payload.authorId)}
             //     }
             // }
-            const byIdCopy = {
-                ...state.byId
-            }
-            delete byIdCopy[action.payload.postId]
-            return {
-                ...state,
-                byId: byIdCopy
-            }
+
         }
     }
     return state

@@ -98,6 +98,7 @@ export const postsReducer = (state = initialState, action:
             //         [action.payload.postId]: {...post, id: post.}
             //     }
             // }
+
             const byIdCopy = {
                 ...state.byId
             }
