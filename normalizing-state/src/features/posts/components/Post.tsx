@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {deletePost, updatePost} from "../posts-reducer";
 import {AppStateType, useAppDispatch} from "../../app/store";
 import {deletePostComment, fetchPostsComments} from "../comments-reducer";

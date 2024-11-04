@@ -1,4 +1,4 @@
-import {api, AuthorApiType, CommentApiType, PostApiType} from "../../api/api";
+import {api, CommentApiType} from "../../api/api";
 import {fetchPostsSuccess, mapToLookupTable} from "./posts-reducer";
 import {Dispatch} from "redux";
 
